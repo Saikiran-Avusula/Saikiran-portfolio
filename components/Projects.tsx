@@ -8,8 +8,8 @@ const categories = ['All', 'Backend', 'Frontend', 'Full Stack', 'AI'];
 const Projects: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState('All');
 
-  const filteredProjects = activeCategory === 'All' 
-    ? PROJECTS 
+  const filteredProjects = activeCategory === 'All'
+    ? PROJECTS
     : PROJECTS.filter(p => p.category === activeCategory);
 
   return (
@@ -23,17 +23,16 @@ const Projects: React.FC = () => {
         >
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Featured Projects</h2>
           <div className="w-20 h-1 bg-primary-500 mx-auto rounded-full mb-8"></div>
-          
+
           <div className="flex flex-wrap justify-center gap-2 md:gap-4">
             {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
-                className={`px-6 py-2.5 rounded-full text-base font-medium transition-all duration-300 ${
-                  activeCategory === cat 
-                    ? 'bg-primary-600 text-white shadow-lg shadow-primary-600/25 scale-105' 
+                className={`px-6 py-2.5 rounded-full text-base font-medium transition-all duration-300 ${activeCategory === cat
+                    ? 'bg-primary-600 text-white shadow-lg shadow-primary-600/25 scale-105'
                     : 'bg-slate-900 text-slate-400 hover:bg-slate-800 hover:text-white'
-                }`}
+                  }`}
               >
                 {cat}
               </button>
@@ -41,7 +40,7 @@ const Projects: React.FC = () => {
           </div>
         </motion.div>
 
-        <motion.div 
+        <motion.div
           layout
           className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
         >
@@ -58,14 +57,14 @@ const Projects: React.FC = () => {
               >
                 {/* Image Overlay */}
                 <div className="aspect-video overflow-hidden relative">
-                  <img 
-                    src={project.image} 
-                    alt={project.title} 
+                  <img
+                    src={project.image}
+                    alt={project.title}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-slate-950/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4 backdrop-blur-sm">
-                    <a 
-                      href={project.githubUrl} 
+                    <a
+                      href={project.githubUrl}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="p-3 bg-white/10 rounded-full hover:bg-primary-500 text-white transition-colors"
@@ -73,14 +72,28 @@ const Projects: React.FC = () => {
                       <Github size={24} />
                     </a>
                     {project.liveUrl && (
-                      <a 
-                        href={project.liveUrl} 
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="p-3 bg-white/10 rounded-full hover:bg-primary-500 text-white transition-colors"
-                      >
-                        <ExternalLink size={24} />
-                      </a>
+                      project.liveUrl === '#' ? (
+                        <div className="relative group/tooltip">
+                          <button
+                            className="p-3 bg-white/10 rounded-full cursor-not-allowed opacity-50 text-white"
+                            aria-label="Live view coming soon"
+                          >
+                            <ExternalLink size={24} />
+                          </button>
+                          <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 text-xs text-white bg-slate-800 rounded opacity-0 group-hover/tooltip:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+                            Coming Soon
+                          </span>
+                        </div>
+                      ) : (
+                        <a
+                          href={project.liveUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="p-3 bg-white/10 rounded-full hover:bg-primary-500 text-white transition-colors"
+                        >
+                          <ExternalLink size={24} />
+                        </a>
+                      )
                     )}
                   </div>
                   <div className="absolute top-4 right-4 bg-slate-950/80 backdrop-blur px-3 py-1 rounded-full text-sm text-primary-400 font-mono border border-slate-800">

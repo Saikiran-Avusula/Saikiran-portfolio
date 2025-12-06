@@ -57,8 +57,8 @@ export const PROJECTS: Project[] = [
     tags: ['Spring Boot', 'MySQL', 'JWT', 'REST API'],
     category: 'Backend',
     image: 'https://picsum.photos/600/400?random=11',
-    githubUrl: PERSONAL_DETAILS.social.github,
-    liveUrl: '#'
+    githubUrl: 'https://github.com/Saikiran-Avusula/notes-api-frontend/tree/main',
+    liveUrl: 'https://notes-api-frontend-seven.vercel.app/login'
   },
   {
     id: 3,
@@ -66,9 +66,19 @@ export const PROJECTS: Project[] = [
     description: 'A responsive bus ticket booking interface featuring search filters, detailed ticket cards, invoice generation, and a checkout process.',
     tags: ['React.js', 'Tailwind CSS', 'Framer Motion'],
     category: 'Frontend',
-    image: 'https://picsum.photos/600/400?random=12',
-    githubUrl: PERSONAL_DETAILS.social.github,
-    liveUrl: '#'
+    image: '/image.png',
+    githubUrl: 'https://github.com/Saikiran-Avusula/Bus-ticket-booking-application/tree/main',
+    liveUrl: 'https://bus-ticket-booking-application-tau.vercel.app/'
+  },
+  {
+    id: 4,
+    title: 'Restaurant Landing Page',
+    description: 'A Modern UI/UX Restaurant Landing Page Website built with React.js. Features complex gradients, soft animations, and a fully responsive design.',
+    tags: ['React.js', 'CSS', 'UI/UX'],
+    category: 'Frontend',
+    image: 'https://i.ibb.co/5jxBKpw/image.png',
+    githubUrl: 'https://github.com/Saikiran-Avusula/food_restaurant_sai_kiran/tree/main',
+    liveUrl: 'https://food-restaurant-sai-kiran.vercel.app/'
   }
 ];
 
