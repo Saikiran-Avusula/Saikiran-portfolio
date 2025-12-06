@@ -8,7 +8,7 @@ export const PERSONAL_DETAILS = {
   name: "Sai Kiran Avusula",
   role: "Full Stack Java Developer",
   about: "Full Stack Java Developer with expertise in building scalable microservices and responsive web interfaces. Specialized in Java, Spring Boot, React.js, and MySQL.",
-  resume: "#",
+  resume: "/resume.pdf",
   social: {
     linkedin: "https://www.linkedin.com/in/sai-kiran-avusula-096655290/",
     github: "https://github.com/Saikiran-Avusula",
