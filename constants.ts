@@ -47,7 +47,8 @@ export const PROJECTS: Project[] = [
     tags: ['Spring Boot', 'MySQL', 'JWT', 'React'],
     category: 'Full Stack',
     image: 'https://picsum.photos/600/400?random=10',
-    githubUrl: PERSONAL_DETAILS.social.github
+    githubUrl: PERSONAL_DETAILS.social.github,
+    liveUrl: '#'
   },
   {
     id: 2,
@@ -56,7 +57,8 @@ export const PROJECTS: Project[] = [
     tags: ['Spring Boot', 'MySQL', 'JWT', 'REST API'],
     category: 'Backend',
     image: 'https://picsum.photos/600/400?random=11',
-    githubUrl: PERSONAL_DETAILS.social.github
+    githubUrl: PERSONAL_DETAILS.social.github,
+    liveUrl: '#'
   },
   {
     id: 3,
@@ -65,7 +67,8 @@ export const PROJECTS: Project[] = [
     tags: ['React.js', 'Tailwind CSS', 'Framer Motion'],
     category: 'Frontend',
     image: 'https://picsum.photos/600/400?random=12',
-    githubUrl: PERSONAL_DETAILS.social.github
+    githubUrl: PERSONAL_DETAILS.social.github,
+    liveUrl: '#'
   }
 ];
 
