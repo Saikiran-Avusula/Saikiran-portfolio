@@ -6,9 +6,8 @@ import { Project, Skill, Experience, BlogPost, NavItem, Education, Certification
  */
 export const PERSONAL_DETAILS = {
   name: "Sai Kiran Avusula",
-  role: "Full Stack Java Developer",
-  about: "Full Stack Java Developer with expertise in building scalable microservices and responsive web interfaces. Specialized in Java, Spring Boot, React.js, and MySQL.",
-  resume: "/resume.pdf",
+  role: "Full-Stack Developer",
+  about: "Building scalable web applications with Java, Spring Boot, React, and MySQL. 2+ years of production experience. Currently shipping features at Hyper Grid Technology.",
   social: {
     linkedin: "https://www.linkedin.com/in/sai-kiran-avusula-096655290/",
     github: "https://github.com/Saikiran-Avusula",
@@ -16,8 +15,18 @@ export const PERSONAL_DETAILS = {
   }
 };
 
+export const ABOUT_INTRO = {
+  title: "About Me",
+  description: [
+    "I'm a full-stack engineer who ships production code. I specialize in backend architecture with Spring Boot and modern frontend with React.",
+    "I don't just write code—I solve problems. From JWT authentication systems to optimized database queries, I focus on what actually moves the needle: performance, security, and user experience.",
+    "Currently at Hyper Grid Technology Solutions, building REST APIs and React interfaces that real users depend on."
+  ]
+};
+
 export const NAV_ITEMS: NavItem[] = [
   { label: 'Home', href: '#home' },
+  { label: 'About', href: '#about' },
   { label: 'Skills', href: '#skills' },
   { label: 'Projects', href: '#projects' },
   { label: 'Experience', href: '#experience' },
@@ -27,16 +36,35 @@ export const NAV_ITEMS: NavItem[] = [
 ];
 
 export const SKILLS: Skill[] = [
+  // Languages
   { name: 'Java', level: 90, category: 'Languages' },
-  { name: 'Spring Boot', level: 85, category: 'Frameworks' },
-  { name: 'React.js', level: 80, category: 'Frameworks' },
-  { name: 'MySQL', level: 80, category: 'Database' },
   { name: 'JavaScript', level: 85, category: 'Languages' },
-  { name: 'HTML / CSS', level: 90, category: 'Languages' },
-  { name: 'Tailwind CSS', level: 85, category: 'Frameworks' },
-  { name: 'Bootstrap', level: 75, category: 'Frameworks' },
-  { name: 'Git & GitHub', level: 85, category: 'Tools' },
-  { name: 'REST APIs', level: 90, category: 'Tools' },
+  { name: 'SQL', level: 80, category: 'Languages' },
+
+  // Frontend
+  { name: 'React.js', level: 80, category: 'Frontend' },
+  { name: 'HTML5', level: 90, category: 'Frontend' },
+  { name: 'CSS3', level: 90, category: 'Frontend' },
+  { name: 'Tailwind CSS', level: 85, category: 'Frontend' },
+  { name: 'Bootstrap', level: 75, category: 'Frontend' },
+
+  // Backend
+  { name: 'Spring Boot', level: 85, category: 'Backend' },
+  { name: 'REST APIs', level: 90, category: 'Backend' },
+  { name: 'JPA/Hibernate', level: 80, category: 'Backend' },
+  { name: 'JWT Authentication', level: 85, category: 'Backend' },
+
+  // Database
+  { name: 'MySQL', level: 80, category: 'Database' },
+  { name: 'PostgreSQL', level: 75, category: 'Database' },
+
+  // Tools
+  { name: 'Git', level: 85, category: 'Tools' },
+  { name: 'Postman', level: 85, category: 'Tools' },
+  { name: 'IntelliJ IDEA', level: 80, category: 'Tools' },
+  { name: 'VS Code', level: 85, category: 'Tools' },
+  { name: 'Vercel', level: 75, category: 'Tools' },
+  { name: 'Render', level: 75, category: 'Tools' },
 ];
 
 export const PROJECTS: Project[] = [
@@ -87,7 +115,7 @@ export const EXPERIENCE: Experience[] = [
     id: 1,
     role: 'Associate Software Engineer',
     company: 'Hyper Grid Technology Solution Pvt Ltd.',
-    period: 'Apr 2024 - Present',
+    period: 'November 2024 - Present',
     description: [
       'Developing REST APIs using Spring Boot and MySQL for business domains.',
       'Building responsive web interfaces with React.js and Tailwind CSS.',
@@ -99,7 +127,7 @@ export const EXPERIENCE: Experience[] = [
     id: 2,
     role: 'Junior Developer',
     company: 'Amoghnya Tech Solutions Pvt Ltd',
-    period: 'Apr 2023 - Apr 2024',
+    period: 'April 2023 - April 2024',
     description: [
       'Developed user-facing features for internal platforms using HTML, CSS, JavaScript, and Bootstrap.',
       'Utilized agile methodologies and collaborative version control with GitHub.',
@@ -111,7 +139,7 @@ export const EXPERIENCE: Experience[] = [
     id: 3,
     role: 'Program Analyst Trainee | Internship',
     company: 'Cognizant Technology Solutions India Pvt Ltd',
-    period: 'Mar 2022 - Nov 2022',
+    period: 'March 2022 - November 2022',
     description: [
       'Contributed to the development and documentation of software programs using JavaScript, HTML, and CSS.',
       'Acquired valuable experience in Java-based OOP applications and problem-solving methodologies.',
@@ -127,7 +155,7 @@ export const EDUCATION: Education[] = [
     degree: "Bachelor of Technology (B.Tech) – Computer Science Engineering",
     institution: "CMR Engineering College, Hyderabad, India",
     period: "2018 – 2022",
-    description: "CGPA: 6.41 (60.8%)"
+    description: "CGPA: 6.47 (60.8%)"
   }
 ];
 

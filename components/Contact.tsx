@@ -41,11 +41,11 @@ const Contact: React.FC = () => {
             <div className="space-y-6">
               <div className="p-8 bg-slate-800/50 rounded-xl border border-slate-700">
                 <h4 className="text-white text-lg font-bold mb-2">Location</h4>
-                <p className="text-slate-400 text-lg">San Francisco, CA (Remote available)</p>
+                <p className="text-slate-400 text-lg">Hyderabad, Telangana, India (Remote available)</p>
               </div>
               <div className="p-8 bg-slate-800/50 rounded-xl border border-slate-700">
                 <h4 className="text-white text-lg font-bold mb-2">Email</h4>
-                <p className="text-slate-400 text-lg">hello@alex.dev</p>
+                <p className="text-slate-400 text-lg">saikiranavusula89@gmail.com</p>
               </div>
             </div>
           </div>

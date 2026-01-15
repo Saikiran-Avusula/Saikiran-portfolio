@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { NAV_ITEMS } from '../constants';
-import { Menu, X, Terminal } from 'lucide-react';
+import { Menu, X, Terminal, Lock, Settings } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { authService } from '../services/authService';
 
-const Navbar: React.FC = () => {
+interface NavbarProps {
+  onOpenLogin: () => void;
+  onNavigateAdmin: () => void;
+}
+
+const Navbar: React.FC<NavbarProps> = ({ onOpenLogin, onNavigateAdmin }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -13,6 +20,10 @@ const Navbar: React.FC = () => {
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    setIsAuthenticated(authService.isAuthenticated());
   }, []);
 
   const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -25,14 +36,13 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <nav 
-      className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${
-        scrolled || isOpen ? 'glass-panel py-4' : 'bg-transparent py-6'
-      }`}
+    <nav
+      className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${scrolled || isOpen ? 'glass-panel py-4' : 'bg-transparent py-6'
+        }`}
     >
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
-        <a 
-          href="#home" 
+        <a
+          href="#home"
           onClick={(e) => scrollToSection(e, '#home')}
           className="flex items-center gap-2 font-mono font-bold text-2xl text-primary-400 cursor-pointer"
         >
@@ -41,7 +51,7 @@ const Navbar: React.FC = () => {
         </a>
 
         {/* Desktop Menu */}
-        <div className="hidden md:flex gap-8">
+        <div className="hidden md:flex gap-8 items-center">
           {NAV_ITEMS.map((item) => (
             <a
               key={item.label}
@@ -53,10 +63,27 @@ const Navbar: React.FC = () => {
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-400 transition-all duration-300 group-hover:w-full"></span>
             </a>
           ))}
+          {isAuthenticated ? (
+            <button
+              onClick={onNavigateAdmin}
+              className="flex items-center gap-2 px-4 py-2 bg-primary-600 hover:bg-primary-500 text-white rounded-lg transition-colors font-medium"
+            >
+              <Settings size={18} />
+              Admin
+            </button>
+          ) : (
+            <button
+              onClick={onOpenLogin}
+              className="flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg transition-colors font-medium"
+            >
+              <Lock size={18} />
+              Login
+            </button>
+          )}
         </div>
 
         {/* Mobile Toggle */}
-        <button 
+        <button
           className="md:hidden text-slate-300 hover:text-white p-2"
           onClick={() => setIsOpen(!isOpen)}
           aria-label="Toggle menu"
@@ -85,6 +112,23 @@ const Navbar: React.FC = () => {
                   {item.label}
                 </a>
               ))}
+              {isAuthenticated ? (
+                <button
+                  onClick={onNavigateAdmin}
+                  className="flex items-center gap-2 px-4 py-3 bg-primary-600 hover:bg-primary-500 text-white rounded-lg transition-colors font-medium justify-center"
+                >
+                  <Settings size={18} />
+                  Admin Panel
+                </button>
+              ) : (
+                <button
+                  onClick={onOpenLogin}
+                  className="flex items-center gap-2 px-4 py-3 bg-slate-800 hover:bg-slate-700 text-white rounded-lg transition-colors font-medium justify-center"
+                >
+                  <Lock size={18} />
+                  Login
+                </button>
+              )}
             </div>
           </motion.div>
         )}

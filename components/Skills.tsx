@@ -1,14 +1,32 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, Tooltip } from 'recharts';
+import { Code, Monitor, Server, Database, Wrench } from 'lucide-react';
 import { SKILLS } from '../constants';
 
+const categoryIcons = {
+  Languages: Code,
+  Frontend: Monitor,
+  Backend: Server,
+  Database: Database,
+  Tools: Wrench,
+};
+
+const categoryColors = {
+  Languages: 'from-primary-500 to-blue-500',
+  Frontend: 'from-indigo-500 to-purple-500',
+  Backend: 'from-violet-500 to-fuchsia-500',
+  Database: 'from-pink-500 to-rose-500',
+  Tools: 'from-orange-500 to-amber-500',
+};
+
 const Skills: React.FC = () => {
-  const formattedSkills = SKILLS.map(s => ({
-    subject: s.name,
-    A: s.level,
-    fullMark: 100
-  }));
+  // Group skills by category
+  const categories = ['Languages', 'Frontend', 'Backend', 'Database', 'Tools'] as const;
+
+  const skillsByCategory = categories.reduce((acc, category) => {
+    acc[category] = SKILLS.filter(skill => skill.category === category);
+    return acc;
+  }, {} as Record<typeof categories[number], typeof SKILLS>);
 
   return (
     <section id="skills" className="py-20 bg-slate-900 relative scroll-mt-24">
@@ -19,66 +37,51 @@ const Skills: React.FC = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Technical Proficiency</h2>
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Technical Stack</h2>
           <div className="w-20 h-1 bg-primary-500 mx-auto rounded-full"></div>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-12 items-center">
-          {/* Chart */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            className="h-[450px] w-full glass-panel rounded-2xl p-4"
-          >
-            <ResponsiveContainer width="100%" height="100%">
-              <RadarChart cx="50%" cy="50%" outerRadius="70%" data={formattedSkills}>
-                <PolarGrid gridType="polygon" stroke="#334155" />
-                <PolarAngleAxis dataKey="subject" tick={{ fill: '#94a3b8', fontSize: 14 }} />
-                <PolarRadiusAxis angle={30} domain={[0, 100]} tick={false} axisLine={false} />
-                <Radar
-                  name="Skill Level"
-                  dataKey="A"
-                  stroke="#0ea5e9"
-                  strokeWidth={3}
-                  fill="#0ea5e9"
-                  fillOpacity={0.4}
-                />
-                <Tooltip 
-                   contentStyle={{ backgroundColor: '#0f172a', border: '1px solid #1e293b', borderRadius: '8px' }}
-                   itemStyle={{ color: '#38bdf8', fontSize: '14px' }}
-                />
-              </RadarChart>
-            </ResponsiveContainer>
-          </motion.div>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {categories.map((category, categoryIndex) => {
+            const Icon = categoryIcons[category];
+            const gradient = categoryColors[category];
+            const skills = skillsByCategory[category];
 
-          {/* List */}
-          <div className="grid grid-cols-1 gap-6">
-            {SKILLS.map((skill, index) => (
+            return (
               <motion.div
-                key={skill.name}
-                initial={{ opacity: 0, x: 50 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                key={category}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="group"
+                transition={{ delay: categoryIndex * 0.1 }}
+                className="glass-panel p-6 rounded-2xl hover:border-primary-500/50 transition-all group"
               >
-                <div className="flex justify-between mb-1">
-                  <span className="text-lg font-medium text-slate-200">{skill.name}</span>
-                  <span className="text-base text-slate-400">{skill.level}%</span>
+                {/* Category Header */}
+                <div className="flex items-center gap-3 mb-6">
+                  <div className={`w-12 h-12 rounded-lg bg-gradient-to-br ${gradient} flex items-center justify-center group-hover:scale-110 transition-transform`}>
+                    <Icon className="text-white" size={24} />
+                  </div>
+                  <h3 className="text-xl font-bold text-white">{category}</h3>
                 </div>
-                <div className="w-full bg-slate-800 rounded-full h-3 overflow-hidden">
-                  <motion.div
-                    className="bg-primary-500 h-3 rounded-full"
-                    initial={{ width: 0 }}
-                    whileInView={{ width: `${skill.level}%` }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1.5, ease: "easeOut" }}
-                  ></motion.div>
+
+                {/* Skills List */}
+                <div className="flex flex-wrap gap-3">
+                  {skills.map((skill, skillIndex) => (
+                    <motion.div
+                      key={skill.name}
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: categoryIndex * 0.1 + skillIndex * 0.05 }}
+                      className={`px-4 py-2 rounded-lg bg-gradient-to-r ${gradient} bg-opacity-10 border border-slate-700/50 hover:border-slate-600 transition-all hover:scale-105`}
+                    >
+                      <span className="text-slate-200 font-medium text-sm">{skill.name}</span>
+                    </motion.div>
+                  ))}
                 </div>
               </motion.div>
-            ))}
-          </div>
+            );
+          })}
         </div>
       </div>
     </section>
