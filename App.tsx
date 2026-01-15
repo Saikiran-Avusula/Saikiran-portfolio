@@ -9,7 +9,6 @@ import Education from './components/Education';
 import Blog from './components/Blog';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
-import AIChat from './components/AIChat';
 import Login from './components/Login';
 import AdminPanel from './components/AdminPanel';
 
@@ -54,7 +53,6 @@ const App: React.FC = () => {
       )}
 
       <Footer />
-      <AIChat />
 
       <Login
         isOpen={isLoginOpen}
