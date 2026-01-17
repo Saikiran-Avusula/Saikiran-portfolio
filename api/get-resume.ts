@@ -7,6 +7,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
+    // Prevent caching of this API response
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
+
     if (req.method === 'OPTIONS') {
         return res.status(200).end();
     }
@@ -26,10 +31,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             return res.status(200).json({ resume: null });
         }
 
+        // Add cache-busting timestamp to URLs
+        const timestamp = Date.now();
+        const urlWithCacheBust = `${resumeBlob.url}?v=${timestamp}`;
+        const downloadUrlWithCacheBust = `${resumeBlob.downloadUrl}?v=${timestamp}`;
+
         return res.status(200).json({
             resume: {
-                url: resumeBlob.url,
-                downloadUrl: resumeBlob.downloadUrl,
+                url: urlWithCacheBust,
+                downloadUrl: downloadUrlWithCacheBust,
                 fileName: 'resume.pdf',
                 fileSize: resumeBlob.size,
                 uploadDate: resumeBlob.uploadedAt,
