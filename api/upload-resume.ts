@@ -1,5 +1,14 @@
 import { put } from '@vercel/blob';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import formidable from 'formidable';
+import { readFileSync } from 'fs';
+
+// Disable body parsing for file uploads
+export const config = {
+    api: {
+        bodyParser: false,
+    },
+};
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
     // Enable CORS
@@ -16,20 +25,41 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     try {
-        // Handle multipart form data differently in Vercel
-        const contentType = req.headers['content-type'] || '';
+        // Parse the multipart form data
+        const form = formidable({});
 
-        if (!contentType.includes('multipart/form-data')) {
-            return res.status(400).json({ error: 'Content-Type must be multipart/form-data' });
+        const [fields, files] = await form.parse(req);
+
+        const file = files.file?.[0];
+
+        if (!file) {
+            return res.status(400).json({ error: 'No file provided' });
         }
 
-        // In Vercel, req.body will have the file if properly parsed
-        // We need to use a different approach for file handling
+        // Validate file type
+        if (file.mimetype !== 'application/pdf') {
+            return res.status(400).json({ error: 'Only PDF files are allowed' });
+        }
 
-        // For now, return a helpful error
-        return res.status(501).json({
-            error: 'File upload needs to be implemented with proper multipart parsing',
-            message: 'This endpoint is under construction'
+        // Validate file size (max 10MB)
+        if (file.size > 10 * 1024 * 1024) {
+            return res.status(400).json({ error: 'File size must be less than 10MB' });
+        }
+
+        // Read the file and upload to Vercel Blob
+        const fileBuffer = readFileSync(file.filepath);
+
+        const blob = await put('resume.pdf', fileBuffer, {
+            access: 'public',
+            addRandomSuffix: false,
+        });
+
+        return res.status(200).json({
+            url: blob.url,
+            downloadUrl: blob.downloadUrl,
+            fileName: file.originalFilename || 'resume.pdf',
+            fileSize: file.size,
+            uploadDate: new Date().toISOString(),
         });
 
     } catch (error) {
