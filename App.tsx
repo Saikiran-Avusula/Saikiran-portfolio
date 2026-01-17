@@ -11,6 +11,7 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 import Login from './components/Login';
 import AdminPanel from './components/AdminPanel';
+import { authService } from './services/authService';
 
 const App: React.FC = () => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
@@ -21,6 +22,7 @@ const App: React.FC = () => {
   };
 
   const handleLogout = () => {
+    authService.logout();
     setCurrentView('home');
     window.scrollTo(0, 0);
   };
@@ -40,6 +42,7 @@ const App: React.FC = () => {
         onOpenLogin={() => setIsLoginOpen(true)}
         onNavigateAdmin={handleNavigateAdmin}
         onNavigateHome={handleNavigateHome}
+        onLogout={handleLogout}
       />
 
       {currentView === 'home' ? (

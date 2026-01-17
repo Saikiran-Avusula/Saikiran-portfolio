@@ -12,6 +12,7 @@ interface AdminPanelProps {
 const AdminPanel: React.FC<AdminPanelProps> = ({ onLogout }) => {
     const [isDragging, setIsDragging] = useState(false);
     const [uploading, setUploading] = useState(false);
+    const [uploadProgress, setUploadProgress] = useState(0);
     const [uploadSuccess, setUploadSuccess] = useState(false);
     const [error, setError] = useState('');
     const [currentResume, setCurrentResume] = useState<{ url: string; fileName: string; fileSize: number; uploadDate: string } | null>(null);
@@ -79,19 +80,48 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onLogout }) => {
 
         try {
             setUploading(true);
-            const resumeData = await resumeService.uploadResume(file);
+            setUploadProgress(0);
 
-            // Small delay to ensure blob storage is updated
-            await new Promise(resolve => setTimeout(resolve, 500));
+            // Create FormData
+            const formData = new FormData();
+            formData.append('file', file);
 
-            // Reload from server to get fresh data with cache-busting timestamp
-            await loadCurrentResume();
+            // Use XMLHttpRequest for progress tracking
+            const xhr = new XMLHttpRequest();
 
-            setUploadSuccess(true);
-            setTimeout(() => setUploadSuccess(false), 3000);
+            xhr.upload.addEventListener('progress', (e) => {
+                if (e.lengthComputable) {
+                    const percentage = Math.round((e.loaded / e.total) * 100);
+                    setUploadProgress(percentage);
+                }
+            });
+
+            xhr.addEventListener('load', async () => {
+                if (xhr.status === 200) {
+                    // Small delay to ensure blob storage is updated
+                    await new Promise(resolve => setTimeout(resolve, 500));
+
+                    // Reload from server to get fresh data
+                    await loadCurrentResume();
+
+                    setUploadSuccess(true);
+                    setTimeout(() => setUploadSuccess(false), 3000);
+                } else {
+                    throw new Error('Upload failed');
+                }
+                setUploading(false);
+            });
+
+            xhr.addEventListener('error', () => {
+                setError('Upload failed. Please try again.');
+                setUploading(false);
+            });
+
+            xhr.open('POST', '/api/upload-resume');
+            xhr.send(formData);
+
         } catch (err: any) {
             setError(err.message || 'Failed to upload resume. Please try again.');
-        } finally {
             setUploading(false);
         }
     };
@@ -404,8 +434,39 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onLogout }) => {
 
                         {uploading ? (
                             <div className="flex flex-col items-center">
-                                <div className="w-16 h-16 border-4 border-primary-500 border-t-transparent rounded-full animate-spin mb-4"></div>
-                                <p className="text-white font-medium">Uploading...</p>
+                                {/* Circular Progress */}
+                                <div className="relative w-24 h-24 mb-4">
+                                    <svg className="w-full h-full transform -rotate-90">
+                                        {/* Background circle */}
+                                        <circle
+                                            cx="48"
+                                            cy="48"
+                                            r="40"
+                                            stroke="currentColor"
+                                            strokeWidth="6"
+                                            fill="none"
+                                            className="text-slate-700"
+                                        />
+                                        {/* Progress circle */}
+                                        <circle
+                                            cx="48"
+                                            cy="48"
+                                            r="40"
+                                            stroke="currentColor"
+                                            strokeWidth="6"
+                                            fill="none"
+                                            strokeDasharray={`${2 * Math.PI * 40}`}
+                                            strokeDashoffset={`${2 * Math.PI * 40 * (1 - uploadProgress / 100)}`}
+                                            className="text-primary-500 transition-all duration-300"
+                                            strokeLinecap="round"
+                                        />
+                                    </svg>
+                                    <div className="absolute inset-0 flex items-center justify-center">
+                                        <span className="text-2xl font-bold text-white">{uploadProgress}%</span>
+                                    </div>
+                                </div>
+                                <p className="text-white font-medium">Uploading resume...</p>
+                                <p className="text-slate-400 text-sm mt-1">{uploadProgress}% complete</p>
                             </div>
                         ) : uploadSuccess ? (
                             <div className="flex flex-col items-center">
