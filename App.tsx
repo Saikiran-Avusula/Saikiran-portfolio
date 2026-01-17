@@ -16,14 +16,17 @@ import { authService } from './services/authService';
 const App: React.FC = () => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [currentView, setCurrentView] = useState<'home' | 'admin'>('home');
+  const [forceNavbarUpdate, setForceNavbarUpdate] = useState(0);
 
   const handleLoginSuccess = () => {
     setCurrentView('admin');
+    setForceNavbarUpdate(prev => prev + 1); // Force navbar update
   };
 
   const handleLogout = () => {
     authService.logout();
     setCurrentView('home');
+    setForceNavbarUpdate(prev => prev + 1); // Force navbar update
     window.scrollTo(0, 0);
   };
 
@@ -39,6 +42,7 @@ const App: React.FC = () => {
   return (
     <div className="relative min-h-screen bg-slate-950 overflow-x-hidden selection:bg-primary-500/30">
       <Navbar
+        key={forceNavbarUpdate}
         onOpenLogin={() => setIsLoginOpen(true)}
         onNavigateAdmin={handleNavigateAdmin}
         onNavigateHome={handleNavigateHome}
