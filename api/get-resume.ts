@@ -36,11 +36,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             new Date(b.uploadedAt).getTime() - new Date(a.uploadedAt).getTime()
         )[0];
 
+        // Extract original filename from metadata if available
+        // @ts-ignore - Vercel Blob includes metadata but types might not show it
+        const originalFileName = resumeBlob.metadata?.originalFileName ||
+            resumeBlob.pathname.split('/').pop() ||
+            'resume.pdf';
+
         return res.status(200).json({
             resume: {
                 url: resumeBlob.url,
                 downloadUrl: resumeBlob.downloadUrl,
-                fileName: 'resume.pdf',
+                fileName: originalFileName,
                 fileSize: resumeBlob.size,
                 uploadDate: resumeBlob.uploadedAt,
             },

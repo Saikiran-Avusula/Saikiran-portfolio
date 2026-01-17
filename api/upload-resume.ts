@@ -62,16 +62,23 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         // Read the file and upload to Vercel Blob
         const fileBuffer = readFileSync(file.filepath);
 
+        const originalFileName = file.originalFilename || 'resume.pdf';
+
         // Use addRandomSuffix to ensure unique URL for each upload
+        // Store original filename in metadata
         const blob = await put('resume.pdf', fileBuffer, {
             access: 'public',
             addRandomSuffix: true, // This ensures unique URL each time
+            contentType: 'application/pdf',
+            metadata: {
+                originalFileName: originalFileName,
+            },
         });
 
         return res.status(200).json({
             url: blob.url,
             downloadUrl: blob.downloadUrl,
-            fileName: file.originalFilename || 'resume.pdf',
+            fileName: originalFileName,
             fileSize: file.size,
             uploadDate: new Date().toISOString(),
         });
