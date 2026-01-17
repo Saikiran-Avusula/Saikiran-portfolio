@@ -40,7 +40,7 @@ const Footer: React.FC = () => {
           <div className="flex items-center gap-2 text-slate-500 text-xs sm:text-sm">
             <Sparkles size={14} className="text-yellow-400" />
             <span>Crafted with</span>
-            <Heart size={20} className="text-red-400 fill-red-400 animate-pulse" />
+            <Heart size={16} className="text-red-400 fill-red-400 animate-pulse" />
           </div>
 
           {/* Bottom Tagline */}

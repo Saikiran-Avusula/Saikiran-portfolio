@@ -59,7 +59,36 @@ const Hero: React.FC = () => {
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-violet-600/10 rounded-full blur-[80px]"></div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10 grid md:grid-cols-2 gap-12 items-center">
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
+        {/* Profile Image - Mobile First (shown at top on mobile) */}
+        <motion.div
+          className="flex justify-center items-center mb-12 md:hidden"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+        >
+          <div className="relative w-64 h-64">
+            {/* Gradient glow background */}
+            <div className="absolute inset-0 bg-gradient-to-br from-primary-500/30 via-purple-500/20 to-pink-500/30 rounded-full blur-3xl animate-pulse" />
+
+            {/* Image container with border */}
+            <motion.div
+              className="relative w-full h-full rounded-full overflow-hidden border-4 border-primary-400/30 shadow-2xl shadow-primary-500/20"
+              whileHover={{ scale: 1.05, rotate: 5 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              <img
+                src={profileImage}
+                alt="Sai Kiran Avusula"
+                className="w-full h-full object-cover"
+              />
+              {/* Overlay for integration */}
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/30 to-transparent pointer-events-none"></div>
+            </motion.div>
+          </div>
+        </motion.div>
+
+        <div className="grid md:grid-cols-2 gap-12 items-center"
         <motion.div
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
@@ -110,6 +139,7 @@ const Hero: React.FC = () => {
           </div>
         </motion.div>
 
+        {/* Profile Image - Desktop (hidden on mobile) */}
         <motion.div
           className="relative hidden md:flex justify-center items-center"
           initial={{ opacity: 0, scale: 0.8 }}
