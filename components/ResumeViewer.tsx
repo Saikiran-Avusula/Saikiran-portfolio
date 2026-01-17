@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Download } from 'lucide-react';
+import { X } from 'lucide-react';
 
 interface ResumeViewerProps {
     isOpen: boolean;
