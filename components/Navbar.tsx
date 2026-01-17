@@ -27,7 +27,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenLogin, onNavigateAdmin, onNavigat
 
   useEffect(() => {
     setIsAuthenticated(authService.isAuthenticated());
-  }, []);
+  }, [isAdminView]); // Re-check authentication when view changes
 
   const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
