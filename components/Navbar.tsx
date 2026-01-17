@@ -50,8 +50,8 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenLogin, onNavigateAdmin, onNavigat
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${scrolled || isOpen
-            ? 'bg-slate-950/95 backdrop-blur-xl border-b border-slate-800/50 shadow-lg'
-            : 'bg-transparent'
+          ? 'bg-slate-950/95 backdrop-blur-xl border-b border-slate-800/50 shadow-lg'
+          : 'bg-transparent'
           }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
@@ -60,17 +60,52 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenLogin, onNavigateAdmin, onNavigat
             <motion.a
               href="#home"
               onClick={(e) => scrollToSection(e, '#home')}
-              className="flex items-center gap-2 sm:gap-3 group cursor-pointer z-[101]"
+              className="flex items-center gap-3 group cursor-pointer z-[101]"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <div className="relative">
-                <Terminal className="text-primary-400 w-7 h-7 sm:w-8 sm:h-8 transition-transform group-hover:rotate-12" />
-                <div className="absolute inset-0 bg-primary-400/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
+              {/* Hexagonal Logo Badge */}
+              <div className="relative w-10 h-10 sm:w-12 sm:h-12">
+                {/* Hexagon Background */}
+                <svg
+                  viewBox="0 0 100 100"
+                  className="absolute inset-0 w-full h-full"
+                >
+                  <defs>
+                    <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#3b82f6" />
+                      <stop offset="100%" stopColor="#8b5cf6" />
+                    </linearGradient>
+                  </defs>
+                  <polygon
+                    points="50,5 90,27.5 90,72.5 50,95 10,72.5 10,27.5"
+                    fill="url(#logoGradient)"
+                    className="transition-all duration-300 group-hover:scale-110"
+                  />
+                  <polygon
+                    points="50,10 85,30 85,70 50,90 15,70 15,30"
+                    fill="#0f172a"
+                    className="opacity-90"
+                  />
+                </svg>
+                {/* SK Text */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className="text-xl sm:text-2xl font-black bg-gradient-to-br from-primary-300 to-primary-500 bg-clip-text text-transparent">
+                    SK
+                  </span>
+                </div>
+                {/* Glow Effect */}
+                <div className="absolute inset-0 bg-gradient-to-br from-primary-400/20 to-purple-500/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </div>
-              <span className="font-mono font-bold text-xl sm:text-2xl bg-gradient-to-r from-primary-400 to-primary-300 bg-clip-text text-transparent">
-                sai.kiran
-              </span>
+
+              <div className="flex flex-col">
+                <span className="font-mono font-bold text-lg sm:text-xl bg-gradient-to-r from-primary-400 via-primary-300 to-purple-400 bg-clip-text text-transparent leading-tight">
+                  Sai Kiran
+                </span>
+                <span className="text-[10px] sm:text-xs text-slate-500 font-medium tracking-wider">
+                  FULL STACK DEV
+                </span>
+              </div>
             </motion.a>
 
             {/* Desktop Navigation */}

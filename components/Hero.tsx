@@ -137,37 +137,28 @@ const Hero: React.FC = () => {
               transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
             />
 
-            {/* 3. Middle Thin Ring with Orbiting Planet */}
-            <motion.div
-              className="absolute inset-12 border border-slate-700/30 rounded-full"
-              animate={{ rotate: -360 }}
-              transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-            >
-              <div className="absolute top-0 left-1/2 w-4 h-4 bg-primary-500 rounded-full -translate-x-1/2 -translate-y-1/2 shadow-[0_0_15px_rgba(14,165,233,0.8)]"></div>
-            </motion.div>
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="relative"
+        >
+            <div className="relative w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 mx-auto lg:mx-0">
+              {/* Gradient glow background */}
+              <div className="absolute inset-0 bg-gradient-to-br from-primary-500/30 via-purple-500/20 to-pink-500/30 rounded-full blur-3xl animate-pulse" />
 
-            {/* 4. Inner Tech Ring (Fast Rotate) */}
-            <motion.div
-              className="absolute inset-24 border-2 border-slate-800 rounded-full border-t-primary-500/50 border-r-transparent border-b-primary-500/50 border-l-transparent"
-              animate={{ rotate: 360 }}
-              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-            />
-
-            {/* 5. Main Image Container */}
-            <motion.div
-              className="relative z-10 w-[340px] h-[340px] rounded-full overflow-hidden border-4 border-slate-900 shadow-2xl"
-              whileHover={{ scale: 1.05 }}
-              transition={{ duration: 0.4 }}
-            >
-              <img
-                src={profileImage}
-                alt="Sai Kiran Avusula"
-                className="w-full h-full object-cover"
-              />
-              {/* Overlay for integration */}
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/30 to-transparent pointer-events-none"></div>
-            </motion.div>
-          </div>
+              {/* Image container with border */}
+              <motion.div
+                className="relative w-full h-full rounded-full overflow-hidden border-4 border-primary-400/30 shadow-2xl shadow-primary-500/20"
+                whileHover={{ scale: 1.05, rotate: 5 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
+                <img
+                  src={profileImage}
+                  alt="Sai Kiran Avusula"
+                  className="w-full h-full object-cover"
+                />
+                {/* Overlay for integration */}
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/30 to-transparent pointer-events-none"></div>
+              </motion.div>
+            </div>
         </motion.div>
       </div>
 
