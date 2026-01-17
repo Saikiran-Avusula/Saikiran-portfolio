@@ -65,12 +65,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const originalFileName = file.originalFilename || 'resume.pdf';
 
         // Use addRandomSuffix to ensure unique URL for each upload
-        // Store original filename in metadata
+        // Store original filename in customMetadata
         const blob = await put('resume.pdf', fileBuffer, {
             access: 'public',
             addRandomSuffix: true, // This ensures unique URL each time
             contentType: 'application/pdf',
-            metadata: {
+            customMetadata: {
                 originalFileName: originalFileName,
             },
         });
