@@ -38,11 +38,9 @@ const Footer: React.FC = () => {
 
           {/* Made with Love */}
           <div className="flex items-center gap-2 text-slate-500 text-xs sm:text-sm">
-            <span>Crafted with</span>
-            <Heart size={14} className="text-red-400 fill-red-400 animate-pulse" />
-            <span>&</span>
             <Sparkles size={14} className="text-yellow-400" />
-            <span>using Gemini API</span>
+            <span>Crafted with</span>
+            <Heart size={20} className="text-red-400 fill-red-400 animate-pulse" />
           </div>
 
           {/* Bottom Tagline */}
