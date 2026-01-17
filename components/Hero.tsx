@@ -177,6 +177,8 @@ const Hero: React.FC = () => {
           isOpen={isResumeViewerOpen}
           onClose={() => setIsResumeViewerOpen(false)}
           resumeUrl={resumeData.url}
+          downloadUrl={resumeData.downloadUrl}
+          fileName={resumeData.fileName}
         />
       )}
     </section>
