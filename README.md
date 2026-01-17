@@ -199,11 +199,55 @@ export const PERSONAL_DETAILS = {
 
 ### **Deploy to Vercel** (Recommended)
 
-1. Push your code to GitHub
-2. Visit [vercel.com](https://vercel.com)
-3. Import your repository
-4. Vercel will auto-detect Vite configuration
-5. Click **Deploy**
+#### **Step 1: Configure Vercel Blob Storage**
+
+Before deploying, set up cloud storage for the resume feature:
+
+1. Go to [Vercel Dashboard](https://vercel.com/dashboard)
+2. Click on **Storage** in the left sidebar
+3. Click **Create Database** → Select **Blob**
+4. Copy the **`BLOB_READ_WRITE_TOKEN`**
+
+#### **Step 2: Add Environment Variables**
+
+1. In your Vercel project, go to **Settings** → **Environment Variables**
+2. Click **Add New**
+3. Add the following:
+   - **Name**: `BLOB_READ_WRITE_TOKEN`
+   - **Value**: (paste the token you copied)
+   - **Environments**: Check all (Production, Preview, Development)
+4. Click **Save**
+
+#### **Step 3: Deploy**
+
+```bash
+git add .
+git commit -m "Deploy portfolio"
+git push
+```
+
+Vercel will automatically deploy your site (takes 1-2 minutes).
+
+#### **Step 4: Upload Your Resume (Admin)**
+
+Once deployed, set up your resume:
+
+1. Visit your deployed site
+2. Click **Login** in the navbar
+3. Enter credentials:
+   - **Username**: `admin`
+   - **Password**: `password123`
+4. Navigate to the Admin Panel
+5. Drag and drop your PDF resume to the upload area
+6. Your resume is now uploaded to Vercel Blob ☁️
+7. It's instantly accessible to all visitors globally!
+
+#### **Step 5: Verify Resume Access**
+
+Test that visitors can view your resume:
+1. Click **"View Resume"** button on the homepage
+2. Resume should open in a new tab
+3. Test in incognito mode to verify public access
 
 ### **Deploy to Netlify**
 
@@ -212,6 +256,33 @@ export const PERSONAL_DETAILS = {
 3. Configure build settings:
    - **Build Command**: `npm run build`
    - **Publish Directory**: `dist`
+
+> [!NOTE]
+> For Netlify deployments, you'll need to configure environment variables in Netlify settings and set up API routes using Netlify Functions.
+
+### **What's Deployed**
+
+When you deploy, the following features are active:
+
+✅ **Resume Upload System**:
+- `/api/upload-resume` - Upload PDF files
+- `/api/get-resume` - Fetch current resume  
+- `/api/delete-resume` - Delete resume
+
+✅ **Cloud Features**:
+- **Universal Access**: Resumes stored on Vercel Blob, accessible globally
+- **CORS Enabled**: Cross-origin requests supported
+- **Automatic Replacement**: New uploads replace old resumes instantly
+- **PDF Validation**: Only PDFs up to 10MB accepted
+
+### **Troubleshooting Deployment**
+
+| Issue | Solution |
+|-------|----------|
+| 404 on API routes | Ensure `BLOB_READ_WRITE_TOKEN` environment variable is set in Vercel |
+| Resume not uploading | Check token is valid; regenerate if needed |
+| Works locally, not on Vercel | Redeploy after adding environment variables |
+| Old resume still showing | Clear browser cache or wait 1-2 minutes for propagation |
 
 ---
 
