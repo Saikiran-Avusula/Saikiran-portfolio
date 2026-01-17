@@ -9,9 +9,10 @@ interface NavbarProps {
   onNavigateAdmin: () => void;
   onNavigateHome: () => void;
   onLogout: () => void;
+  isAdminView?: boolean;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ onOpenLogin, onNavigateAdmin, onNavigateHome, onLogout }) => {
+const Navbar: React.FC<NavbarProps> = ({ onOpenLogin, onNavigateAdmin, onNavigateHome, onLogout, isAdminView = false }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -129,15 +130,17 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenLogin, onNavigateAdmin, onNavigat
             <div className="hidden lg:flex items-center gap-3">
               {isAuthenticated ? (
                 <>
-                  <motion.button
-                    onClick={onNavigateAdmin}
-                    className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-primary-400 text-white text-sm font-semibold rounded-lg transition-all shadow-lg shadow-primary-600/25 hover:shadow-primary-500/40"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <Settings size={18} />
-                    Admin
-                  </motion.button>
+                  {!isAdminView && (
+                    <motion.button
+                      onClick={onNavigateAdmin}
+                      className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-primary-400 text-white text-sm font-semibold rounded-lg transition-all shadow-lg shadow-primary-600/25 hover:shadow-primary-500/40"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      <Settings size={18} />
+                      Admin
+                    </motion.button>
+                  )}
                   <motion.button
                     onClick={onLogout}
                     className="flex items-center gap-2 px-4 py-2.5 bg-slate-800/80 hover:bg-slate-700 text-white text-sm font-semibold rounded-lg transition-all border border-slate-700/50 hover:border-slate-600"
@@ -249,16 +252,18 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenLogin, onNavigateAdmin, onNavigat
                 >
                   {isAuthenticated ? (
                     <>
-                      <button
-                        onClick={() => {
-                          setIsOpen(false);
-                          onNavigateAdmin();
-                        }}
-                        className="w-full flex items-center justify-center gap-3 px-6 py-4 bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-primary-400 text-white text-base font-bold rounded-xl transition-all shadow-lg shadow-primary-600/25"
-                      >
-                        <Settings size={20} />
-                        Admin Panel
-                      </button>
+                      {!isAdminView && (
+                        <button
+                          onClick={() => {
+                            setIsOpen(false);
+                            onNavigateAdmin();
+                          }}
+                          className="w-full flex items-center justify-center gap-3 px-6 py-4 bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-primary-400 text-white text-base font-bold rounded-xl transition-all shadow-lg shadow-primary-600/25"
+                        >
+                          <Settings size={20} />
+                          Admin Panel
+                        </button>
+                      )}
                       <button
                         onClick={() => {
                           setIsOpen(false);

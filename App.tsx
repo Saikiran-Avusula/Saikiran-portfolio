@@ -43,6 +43,7 @@ const App: React.FC = () => {
         onNavigateAdmin={handleNavigateAdmin}
         onNavigateHome={handleNavigateHome}
         onLogout={handleLogout}
+        isAdminView={currentView === 'admin'}
       />
 
       {currentView === 'home' ? (
