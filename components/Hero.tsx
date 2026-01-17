@@ -168,17 +168,18 @@ const Hero: React.FC = () => {
             </div>
           </motion.div>
         </div>
+      </div>
 
-        {/* Resume Viewer Modal */}
-        {resumeData && (
-          <ResumeViewer
-            isOpen={isResumeViewerOpen}
-            onClose={() => setIsResumeViewerOpen(false)}
-            resumeUrl={resumeData.url}
-            downloadUrl={resumeData.downloadUrl}
-            fileName={resumeData.fileName}
-          />
-        )}
+      {/* Resume Viewer Modal */}
+      {resumeData && (
+        <ResumeViewer
+          isOpen={isResumeViewerOpen}
+          onClose={() => setIsResumeViewerOpen(false)}
+          resumeUrl={resumeData.url}
+          downloadUrl={resumeData.downloadUrl}
+          fileName={resumeData.fileName}
+        />
+      )}
     </section>
   );
 };
