@@ -114,7 +114,10 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenLogin, onNavigateAdmin }) => {
               ))}
               {isAuthenticated ? (
                 <button
-                  onClick={onNavigateAdmin}
+                  onClick={() => {
+                    setIsOpen(false);
+                    onNavigateAdmin();
+                  }}
                   className="flex items-center gap-2 px-4 py-3 bg-primary-600 hover:bg-primary-500 text-white rounded-lg transition-colors font-medium justify-center"
                 >
                   <Settings size={18} />
@@ -122,7 +125,10 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenLogin, onNavigateAdmin }) => {
                 </button>
               ) : (
                 <button
-                  onClick={onOpenLogin}
+                  onClick={() => {
+                    setIsOpen(false);
+                    onOpenLogin();
+                  }}
                   className="flex items-center gap-2 px-4 py-3 bg-slate-800 hover:bg-slate-700 text-white rounded-lg transition-colors font-medium justify-center"
                 >
                   <Lock size={18} />
