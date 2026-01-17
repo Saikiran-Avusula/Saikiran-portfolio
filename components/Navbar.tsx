@@ -7,9 +7,10 @@ import { authService } from '../services/authService';
 interface NavbarProps {
   onOpenLogin: () => void;
   onNavigateAdmin: () => void;
+  onNavigateHome: () => void;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ onOpenLogin, onNavigateAdmin }) => {
+const Navbar: React.FC<NavbarProps> = ({ onOpenLogin, onNavigateAdmin, onNavigateHome }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -28,11 +29,18 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenLogin, onNavigateAdmin }) => {
 
   const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
-    const element = document.querySelector(href);
-    if (element) {
-      setIsOpen(false);
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+    setIsOpen(false);
+
+    // Navigate to home view first
+    onNavigateHome();
+
+    // Wait for view to update, then scroll
+    setTimeout(() => {
+      const element = document.querySelector(href);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 100);
   };
 
   return (

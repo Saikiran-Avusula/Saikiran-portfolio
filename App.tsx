@@ -30,11 +30,16 @@ const App: React.FC = () => {
     window.scrollTo(0, 0);
   };
 
+  const handleNavigateHome = () => {
+    setCurrentView('home');
+  };
+
   return (
     <div className="relative min-h-screen bg-slate-950 overflow-x-hidden selection:bg-primary-500/30">
       <Navbar
         onOpenLogin={() => setIsLoginOpen(true)}
         onNavigateAdmin={handleNavigateAdmin}
+        onNavigateHome={handleNavigateHome}
       />
 
       {currentView === 'home' ? (
