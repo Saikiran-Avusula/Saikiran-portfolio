@@ -116,49 +116,26 @@ const Hero: React.FC = () => {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          {/* Main Visual Container */}
-          <div className="relative w-[500px] h-[500px] flex items-center justify-center">
+          {/* Profile Image - Now visible on mobile */}
+          <div className="relative w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 mx-auto lg:mx-0">
+            {/* Gradient glow background */}
+            <div className="absolute inset-0 bg-gradient-to-br from-primary-500/30 via-purple-500/20 to-pink-500/30 rounded-full blur-3xl animate-pulse" />
 
-            {/* 1. Pulsing Gradient Blob Background */}
+            {/* Image container with border */}
             <motion.div
-              className="absolute inset-0 rounded-full bg-gradient-to-tr from-primary-500/20 via-violet-500/20 to-blue-500/20 blur-[60px]"
-              animate={{
-                scale: [1, 1.2, 1],
-                opacity: [0.3, 0.6, 0.3]
-              }}
-              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-            />
-
-            {/* 2. Outer Dashed Ring (Slow Rotate) */}
-            <motion.div
-              className="absolute inset-0 border border-slate-700/50 rounded-full border-dashed"
-              style={{ borderSpacing: "20px" }}
-              animate={{ rotate: 360 }}
-              transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
-            />
-
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="relative"
-        >
-            <div className="relative w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 mx-auto lg:mx-0">
-              {/* Gradient glow background */}
-              <div className="absolute inset-0 bg-gradient-to-br from-primary-500/30 via-purple-500/20 to-pink-500/30 rounded-full blur-3xl animate-pulse" />
-
-              {/* Image container with border */}
-              <motion.div
-                className="relative w-full h-full rounded-full overflow-hidden border-4 border-primary-400/30 shadow-2xl shadow-primary-500/20"
-                whileHover={{ scale: 1.05, rotate: 5 }}
-                transition={{ type: "spring", stiffness: 300 }}
-              >
-                <img
-                  src={profileImage}
-                  alt="Sai Kiran Avusula"
-                  className="w-full h-full object-cover"
-                />
-                {/* Overlay for integration */}
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/30 to-transparent pointer-events-none"></div>
-              </motion.div>
-            </div>
+              className="relative w-full h-full rounded-full overflow-hidden border-4 border-primary-400/30 shadow-2xl shadow-primary-500/20"
+              whileHover={{ scale: 1.05, rotate: 5 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              <img
+                src={profileImage}
+                alt="Sai Kiran Avusula"
+                className="w-full h-full object-cover"
+              />
+              {/* Overlay for integration */}
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/30 to-transparent pointer-events-none"></div>
+            </motion.div>
+          </div>
         </motion.div>
       </div>
 
