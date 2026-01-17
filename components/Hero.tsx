@@ -32,8 +32,8 @@ const Hero: React.FC = () => {
     try {
       const resumeData = await resumeService.getResume();
       if (resumeData) {
-        // Open the cloud URL directly - no need to create blob URL
-        window.open(resumeData.url, '_blank');
+        // Use downloadUrl which allows both viewing and downloading
+        window.open(resumeData.downloadUrl, '_blank');
       } else {
         alert('No resume available yet. The admin needs to upload a resume first.');
       }
