@@ -1,8 +1,6 @@
 import { list } from '@vercel/blob';
 
-export const config = {
-    runtime: 'edge',
-};
+// Uses Node.js runtime (default) - required for @vercel/blob
 
 export default async function handler(request: Request) {
     if (request.method !== 'GET') {
