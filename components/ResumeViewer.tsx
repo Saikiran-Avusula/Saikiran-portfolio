@@ -67,9 +67,10 @@ const ResumeViewer: React.FC<ResumeViewerProps> = ({
                         {/* PDF Viewer */}
                         <div className="flex-1 overflow-hidden bg-slate-950">
                             <iframe
-                                src={resumeUrl}
+                                src={`${resumeUrl}#toolbar=0&view=FitH`}
                                 className="w-full h-full"
                                 title="Resume"
+                                key={resumeUrl}
                             />
                         </div>
                     </motion.div>

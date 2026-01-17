@@ -80,7 +80,13 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onLogout }) => {
         try {
             setUploading(true);
             const resumeData = await resumeService.uploadResume(file);
-            setCurrentResume(resumeData);
+
+            // Small delay to ensure blob storage is updated
+            await new Promise(resolve => setTimeout(resolve, 500));
+
+            // Reload from server to get fresh data with cache-busting timestamp
+            await loadCurrentResume();
+
             setUploadSuccess(true);
             setTimeout(() => setUploadSuccess(false), 3000);
         } catch (err: any) {
@@ -358,9 +364,10 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onLogout }) => {
                         <h2 className="text-xl font-semibold text-white mb-4">Resume Preview</h2>
                         <div className="bg-slate-900 rounded-lg overflow-hidden border border-slate-800">
                             <iframe
-                                src={currentResume.url}
+                                src={`${currentResume.url}#toolbar=0&view=FitH`}
                                 className="w-full h-[600px] rounded-lg"
                                 title="Resume Preview"
+                                key={currentResume.uploadDate}
                             />
                         </div>
                     </motion.div>

@@ -1,4 +1,4 @@
-import { put } from '@vercel/blob';
+import { put, list, del } from '@vercel/blob';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import formidable from 'formidable';
 import { readFileSync } from 'fs';
@@ -46,6 +46,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             return res.status(400).json({ error: 'File size must be less than 10MB' });
         }
 
+        // Delete existing resume before uploading new one
+        try {
+            const { blobs } = await list();
+            const existingResume = blobs.find(blob => blob.pathname === 'resume.pdf');
+            if (existingResume) {
+                await del(existingResume.url);
+            }
+        } catch (deleteError) {
+            console.error('Error deleting old resume:', deleteError);
+            // Continue with upload even if delete fails
+        }
+
         // Read the file and upload to Vercel Blob
         const fileBuffer = readFileSync(file.filepath);
 
@@ -54,9 +66,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             addRandomSuffix: false,
         });
 
+        // Add cache-busting timestamp to URLs
+        const timestamp = Date.now();
+        const urlWithCacheBust = `${blob.url}?v=${timestamp}`;
+        const downloadUrlWithCacheBust = `${blob.downloadUrl}?v=${timestamp}`;
+
         return res.status(200).json({
-            url: blob.url,
-            downloadUrl: blob.downloadUrl,
+            url: urlWithCacheBust,
+            downloadUrl: downloadUrlWithCacheBust,
             fileName: file.originalFilename || 'resume.pdf',
             fileSize: file.size,
             uploadDate: new Date().toISOString(),
