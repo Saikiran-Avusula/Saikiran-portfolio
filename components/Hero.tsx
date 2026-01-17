@@ -32,10 +32,8 @@ const Hero: React.FC = () => {
     try {
       const resumeData = await resumeService.getResume();
       if (resumeData) {
-        const url = URL.createObjectURL(resumeData.file);
-        window.open(url, '_blank');
-        // Cleanup URL after a delay
-        setTimeout(() => URL.revokeObjectURL(url), 100);
+        // Open the cloud URL directly - no need to create blob URL
+        window.open(resumeData.url, '_blank');
       } else {
         alert('No resume uploaded yet. Please login to admin panel to upload your resume.');
       }

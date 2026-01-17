@@ -1,6 +1,6 @@
 # 🚀 Sai Kiran Avusula - Full Stack Developer Portfolio
 
-A modern, high-performance portfolio website built with **React 19**, **TypeScript**, and **Tailwind CSS**. Features a stunning UI with smooth animations, an admin panel for content management, and resume upload functionality with IndexedDB storage.
+A modern, high-performance portfolio website built with **React 19**, **TypeScript**, and **Tailwind CSS**. Features a stunning UI with smooth animations, an admin panel for content management, and cloud-based resume storage with **Vercel Blob**.
 
 ---
 
@@ -23,12 +23,13 @@ A modern, high-performance portfolio website built with **React 19**, **TypeScri
 - **Resume Management**: Upload, preview, and replace PDF resumes
 - **Drag & Drop**: Intuitive resume upload interface
 - **PDF Preview**: Built-in resume viewer within admin panel
-- **Persistent Storage**: Resume stored using IndexedDB for offline access
+- **Cloud Storage**: Resumes stored on Vercel Blob for universal access
 
 ### 📄 **Resume Features**
-- **Dynamic Resume Display**: "View Resume" button on homepage
-- **Automatic Updates**: Uploaded resumes automatically replace previous versions
-- **Browser Storage**: No server required - resumes stored client-side
+- **Universal Access**: Uploaded resumes available to all visitors globally
+- **Cloud-Based**: Stored on Vercel Blob Storage, accessible from any device
+- **Dynamic Display**: "View Resume" button on homepage
+- **Automatic Updates**: Newly uploaded resumes instantly replace previous versions
 
 ---
 
@@ -46,7 +47,7 @@ A modern, high-performance portfolio website built with **React 19**, **TypeScri
 - **Recharts** - Composable charting library
 
 ### **Storage & Data**
-- **IndexedDB** - Client-side resume storage
+- **Vercel Blob Storage** - Cloud-based resume storage for universal access
 - **localStorage** - Authentication state management
 
 ### **Development Tools**
@@ -76,7 +77,32 @@ cd Saikiran-portfolio
 npm install
 ```
 
-### **3. Run Development Server**
+### **3. Environment Configuration**
+
+For resume upload functionality, you need to configure Vercel Blob Storage:
+
+1. **Create a Vercel Blob Store**:
+   - Go to [Vercel Dashboard](https://vercel.com/dashboard)
+   - Navigate to your project → **Storage** → **Create Database**
+   - Select **Blob** storage type
+   - Copy the `BLOB_READ_WRITE_TOKEN`
+
+2. **Set Environment Variables**:
+
+For local development, create `.env.local`:
+
+```env
+BLOB_READ_WRITE_TOKEN=vercel_blob_rw_xxxxxxxxxxxxx
+```
+
+For production on Vercel:
+- Go to your project settings → **Environment Variables**
+- Add `BLOB_READ_WRITE_TOKEN` with your token value
+
+> [!NOTE]
+> Without this configuration, the resume upload feature won't work. The app will still function, but the "View Resume" button will show an upload prompt.
+
+### **4. Run Development Server**
 
 ```bash
 npm run dev
@@ -84,7 +110,7 @@ npm run dev
 
 The application will start at **`http://localhost:5173`**
 
-### **4. Build for Production**
+### **5. Build for Production**
 
 ```bash
 npm run build
@@ -193,17 +219,21 @@ export const PERSONAL_DETAILS = {
 
 ### **Resume Management System**
 
-The portfolio includes a complete resume management solution:
+The portfolio includes a complete cloud-based resume management solution:
 
-- **Upload**: Drag-and-drop PDF files
-- **Storage**: Files stored in browser IndexedDB (no server required)
+- **Upload**: Drag-and-drop PDF files via admin panel
+- **Cloud Storage**: Files stored on Vercel Blob Storage for universal access
 - **Preview**: Built-in PDF viewer in admin panel
-- **Download**: Visitors can download your resume from the homepage
-- **Auto-Replace**: New uploads automatically replace old resumes
+- **Universal Download**: Any visitor can view/download your resume from the homepage
+- **Auto-Replace**: New uploads automatically replace old resumes globally
+- **Serverless**: Uses Vercel Edge Functions for fast, scalable uploads
 
 **Implementation Files**:
+- `api/upload-resume.ts` - Serverless upload endpoint
+- `api/get-resume.ts` - Serverless fetch endpoint
+- `api/delete-resume.ts` - Serverless delete endpoint
+- `services/resumeService.ts` - Client-side API wrapper
 - `components/AdminPanel.tsx` - Admin interface
-- `services/resumeService.ts` - Storage logic
 - `components/Hero.tsx` - "View Resume" button
 
 ### **Authentication System**

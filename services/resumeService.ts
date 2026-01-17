@@ -1,70 +1,53 @@
-// Resume Storage Service using IndexedDB
-const DB_NAME = 'PortfolioResume';
-const STORE_NAME = 'resume';
-const DB_VERSION = 1;
+// Resume Storage Service using Vercel Blob Storage
+// This service handles resume uploads, retrieval, and deletion via Vercel serverless functions
 
-const openDB = (): Promise<IDBDatabase> => {
-    return new Promise((resolve, reject) => {
-        const request = indexedDB.open(DB_NAME, DB_VERSION);
-
-        request.onerror = () => reject(request.error);
-        request.onsuccess = () => resolve(request.result);
-
-        request.onupgradeneeded = (event) => {
-            const db = (event.target as IDBOpenDBRequest).result;
-            if (!db.objectStoreNames.contains(STORE_NAME)) {
-                db.createObjectStore(STORE_NAME);
-            }
-        };
-    });
-};
+interface ResumeData {
+    url: string;
+    downloadUrl: string;
+    fileName: string;
+    fileSize: number;
+    uploadDate: string;
+}
 
 export const resumeService = {
-    uploadResume: async (file: File): Promise<void> => {
-        const db = await openDB();
-        const transaction = db.transaction([STORE_NAME], 'readwrite');
-        const store = transaction.objectStore(STORE_NAME);
+    uploadResume: async (file: File): Promise<ResumeData> => {
+        const formData = new FormData();
+        formData.append('file', file);
 
-        return new Promise((resolve, reject) => {
-            // Store the file with metadata
-            const request = store.put({
-                file,
-                uploadDate: new Date().toISOString(),
-                fileName: file.name,
-                fileSize: file.size
-            }, 'current');
-
-            request.onsuccess = () => resolve();
-            request.onerror = () => reject(request.error);
+        const response = await fetch('/api/upload-resume', {
+            method: 'POST',
+            body: formData,
         });
+
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.error || 'Failed to upload resume');
+        }
+
+        return await response.json();
     },
 
-    getResume: async (): Promise<{ file: File; uploadDate: string; fileName: string } | null> => {
-        const db = await openDB();
-        const transaction = db.transaction([STORE_NAME], 'readonly');
-        const store = transaction.objectStore(STORE_NAME);
+    getResume: async (): Promise<ResumeData | null> => {
+        const response = await fetch('/api/get-resume');
 
-        return new Promise((resolve, reject) => {
-            const request = store.get('current');
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.error || 'Failed to fetch resume');
+        }
 
-            request.onsuccess = () => {
-                const result = request.result;
-                resolve(result || null);
-            };
-            request.onerror = () => reject(request.error);
-        });
+        const data = await response.json();
+        return data.resume;
     },
 
-    deleteResume: async (): Promise<void> => {
-        const db = await openDB();
-        const transaction = db.transaction([STORE_NAME], 'readwrite');
-        const store = transaction.objectStore(STORE_NAME);
-
-        return new Promise((resolve, reject) => {
-            const request = store.delete('current');
-            request.onsuccess = () => resolve();
-            request.onerror = () => reject(request.error);
+    deleteResume: async (url: string): Promise<void> => {
+        const response = await fetch(`/api/delete-resume?url=${encodeURIComponent(url)}`, {
+            method: 'DELETE',
         });
+
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.error || 'Failed to delete resume');
+        }
     },
 
     hasResume: async (): Promise<boolean> => {
@@ -72,3 +55,4 @@ export const resumeService = {
         return resume !== null;
     }
 };
+

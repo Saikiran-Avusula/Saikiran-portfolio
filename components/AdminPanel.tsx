@@ -14,7 +14,7 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onLogout }) => {
     const [uploading, setUploading] = useState(false);
     const [uploadSuccess, setUploadSuccess] = useState(false);
     const [error, setError] = useState('');
-    const [currentResume, setCurrentResume] = useState<any>(null);
+    const [currentResume, setCurrentResume] = useState<{ url: string; fileName: string; fileSize: number; uploadDate: string } | null>(null);
 
     // Profile Image State
     const [isImageDragging, setIsImageDragging] = useState(false);
@@ -79,12 +79,12 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onLogout }) => {
 
         try {
             setUploading(true);
-            await resumeService.uploadResume(file);
-            await loadCurrentResume();
+            const resumeData = await resumeService.uploadResume(file);
+            setCurrentResume(resumeData);
             setUploadSuccess(true);
             setTimeout(() => setUploadSuccess(false), 3000);
-        } catch (err) {
-            setError('Failed to upload resume. Please try again.');
+        } catch (err: any) {
+            setError(err.message || 'Failed to upload resume. Please try again.');
         } finally {
             setUploading(false);
         }
@@ -92,22 +92,20 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onLogout }) => {
 
     const handleDownload = () => {
         if (currentResume) {
-            const url = URL.createObjectURL(currentResume.file);
             const link = document.createElement('a');
-            link.href = url;
+            link.href = currentResume.url;
             link.download = currentResume.fileName;
             link.click();
-            URL.revokeObjectURL(url);
         }
     };
 
     const handleDelete = async () => {
-        if (confirm('Are you sure you want to delete the current resume?')) {
+        if (currentResume && confirm('Are you sure you want to delete the current resume?')) {
             try {
-                await resumeService.deleteResume();
+                await resumeService.deleteResume(currentResume.url);
                 setCurrentResume(null);
-            } catch (err) {
-                setError('Failed to delete resume');
+            } catch (err: any) {
+                setError(err.message || 'Failed to delete resume');
             }
         }
     };
@@ -255,8 +253,8 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onLogout }) => {
                         onDragLeave={handleImageDragLeave}
                         onDrop={handleImageDrop}
                         className={`relative border-2 border-dashed rounded-xl p-8 text-center transition-all ${isImageDragging
-                                ? 'border-primary-500 bg-primary-500/10'
-                                : 'border-slate-700 hover:border-slate-600'
+                            ? 'border-primary-500 bg-primary-500/10'
+                            : 'border-slate-700 hover:border-slate-600'
                             }`}
                     >
                         <input
@@ -360,7 +358,7 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onLogout }) => {
                         <h2 className="text-xl font-semibold text-white mb-4">Resume Preview</h2>
                         <div className="bg-slate-900 rounded-lg overflow-hidden border border-slate-800">
                             <iframe
-                                src={URL.createObjectURL(currentResume.file)}
+                                src={currentResume.url}
                                 className="w-full h-[600px] rounded-lg"
                                 title="Resume Preview"
                             />
