@@ -1,4 +1,4 @@
-import { list, head } from '@vercel/blob';
+import { list } from '@vercel/blob';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -36,14 +36,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             new Date(b.uploadedAt).getTime() - new Date(a.uploadedAt).getTime()
         )[0];
 
-        // Use head() to get full metadata including customMetadata
-        const blobMetadata = await head(resumeBlob.url);
-
-        // Extract original filename from customMetadata
-        // @ts-ignore - customMetadata is supported but might not be in types
-        const originalFileName = blobMetadata.customMetadata?.originalFileName ||
-            resumeBlob.pathname.split('/').pop() ||
-            'resume.pdf';
+        // Extract original filename from pathname pattern: "resume__OriginalName-randomsuffix.pdf"
+        let originalFileName = 'resume.pdf';
+        if (resumeBlob.pathname.includes('__')) {
+            // Extract the part between "resume__" and the random suffix
+            const parts = resumeBlob.pathname.split('__');
+            if (parts.length > 1) {
+                // Remove the random suffix (everything after the last hyphen before .pdf)
+                const filenamePart = parts[1];
+                // The actual filename is before the random suffix
+                originalFileName = filenamePart.split('-').slice(0, -1).join('-') || filenamePart;
+            }
+        }
 
         return res.status(200).json({
             resume: {

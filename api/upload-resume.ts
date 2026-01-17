@@ -49,7 +49,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         // Delete existing resume before uploading new one
         try {
             const { blobs } = await list();
-            // Delete all resume.pdf files (including ones with random suffix)
+            // Delete all resume files (including ones with random suffix)
             const resumeBlobs = blobs.filter(blob => blob.pathname.startsWith('resume'));
             for (const oldBlob of resumeBlobs) {
                 await del(oldBlob.url);
@@ -64,17 +64,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
         const originalFileName = file.originalFilename || 'resume.pdf';
 
+        // Encode original filename in the pathname: "resume__{originalName}.pdf"
+        // This way we can extract it later without needing customMetadata
+        const safeFileName = originalFileName.replace(/[^a-zA-Z0-9._-]/g, '_');
+        const blobPathname = `resume__${safeFileName}`;
+
         // Use addRandomSuffix to ensure unique URL for each upload
-        // Store original filename in customMetadata
-        // Using 'as any' because customMetadata is supported by Vercel Blob API but not in type definitions
-        const blob = await put('resume.pdf', fileBuffer, {
+        const blob = await put(blobPathname, fileBuffer, {
             access: 'public',
             addRandomSuffix: true,
             contentType: 'application/pdf',
-            customMetadata: {
-                originalFileName: originalFileName,
-            },
-        } as any);
+        });
 
         return res.status(200).json({
             url: blob.url,
