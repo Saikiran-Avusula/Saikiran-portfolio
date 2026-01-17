@@ -1,4 +1,4 @@
-import { list } from '@vercel/blob';
+import { list, head } from '@vercel/blob';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -36,9 +36,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             new Date(b.uploadedAt).getTime() - new Date(a.uploadedAt).getTime()
         )[0];
 
-        // Extract original filename from customMetadata if available
-        // @ts-ignore - Vercel Blob includes customMetadata but types might not show it
-        const originalFileName = resumeBlob.customMetadata?.originalFileName ||
+        // Use head() to get full metadata including customMetadata
+        const blobMetadata = await head(resumeBlob.url);
+
+        // Extract original filename from customMetadata
+        // @ts-ignore - customMetadata is supported but might not be in types
+        const originalFileName = blobMetadata.customMetadata?.originalFileName ||
             resumeBlob.pathname.split('/').pop() ||
             'resume.pdf';
 
