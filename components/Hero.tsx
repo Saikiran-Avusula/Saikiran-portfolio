@@ -4,9 +4,12 @@ import { ArrowRight, Github, Linkedin, Mail, FileText } from 'lucide-react';
 import { PERSONAL_DETAILS } from '../constants';
 import { resumeService } from '../services/resumeService';
 import { imageService } from '../services/imageService';
+import ResumeViewer from './ResumeViewer';
 
 const Hero: React.FC = () => {
   const [profileImage, setProfileImage] = useState<string>('https://github.com/Saikiran-Avusula.png');
+  const [isResumeViewerOpen, setIsResumeViewerOpen] = useState(false);
+  const [resumeData, setResumeData] = useState<{ url: string; downloadUrl: string; fileName: string } | null>(null);
 
   useEffect(() => {
     loadProfileImage();
@@ -30,16 +33,15 @@ const Hero: React.FC = () => {
   const handleViewResume = async (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     try {
-      const resumeData = await resumeService.getResume();
-      if (resumeData) {
-        // Use downloadUrl which allows both viewing and downloading
-        window.open(resumeData.downloadUrl, '_blank');
+      const data = await resumeService.getResume();
+      if (data) {
+        setResumeData(data);
+        setIsResumeViewerOpen(true);
       } else {
         alert('No resume available yet. The admin needs to upload a resume first.');
       }
     } catch (error) {
       console.error('Error loading resume:', error);
-      // Check if it's a fetch error (API not responding) vs no resume
       if (error instanceof TypeError) {
         alert('Unable to connect to resume service. Please try again later.');
       } else {
@@ -168,6 +170,17 @@ const Hero: React.FC = () => {
           </div>
         </motion.div>
       </div>
+
+      {/* Resume Viewer Modal */}
+      {resumeData && (
+        <ResumeViewer
+          isOpen={isResumeViewerOpen}
+          onClose={() => setIsResumeViewerOpen(false)}
+          resumeUrl={resumeData.url}
+          downloadUrl={resumeData.downloadUrl}
+          fileName={resumeData.fileName}
+        />
+      )}
     </section>
   );
 };
