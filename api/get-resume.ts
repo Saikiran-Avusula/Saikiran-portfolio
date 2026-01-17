@@ -21,25 +21,25 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     try {
-        // List all blobs and find the resume
+        // List all blobs and find the most recent resume
         const { blobs } = await list();
 
-        // Find the resume.pdf file
-        const resumeBlob = blobs.find(blob => blob.pathname === 'resume.pdf');
+        // Find all resume files (pathname starts with 'resume')
+        const resumeBlobs = blobs.filter(blob => blob.pathname.startsWith('resume'));
 
-        if (!resumeBlob) {
+        if (resumeBlobs.length === 0) {
             return res.status(200).json({ resume: null });
         }
 
-        // Add cache-busting timestamp to URLs
-        const timestamp = Date.now();
-        const urlWithCacheBust = `${resumeBlob.url}?v=${timestamp}`;
-        const downloadUrlWithCacheBust = `${resumeBlob.downloadUrl}?v=${timestamp}`;
+        // Get the most recently uploaded resume
+        const resumeBlob = resumeBlobs.sort((a, b) =>
+            new Date(b.uploadedAt).getTime() - new Date(a.uploadedAt).getTime()
+        )[0];
 
         return res.status(200).json({
             resume: {
-                url: urlWithCacheBust,
-                downloadUrl: downloadUrlWithCacheBust,
+                url: resumeBlob.url,
+                downloadUrl: resumeBlob.downloadUrl,
                 fileName: 'resume.pdf',
                 fileSize: resumeBlob.size,
                 uploadDate: resumeBlob.uploadedAt,

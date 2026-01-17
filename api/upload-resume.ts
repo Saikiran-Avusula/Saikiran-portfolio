@@ -49,9 +49,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         // Delete existing resume before uploading new one
         try {
             const { blobs } = await list();
-            const existingResume = blobs.find(blob => blob.pathname === 'resume.pdf');
-            if (existingResume) {
-                await del(existingResume.url);
+            // Delete all resume.pdf files (including ones with random suffix)
+            const resumeBlobs = blobs.filter(blob => blob.pathname.startsWith('resume'));
+            for (const oldBlob of resumeBlobs) {
+                await del(oldBlob.url);
             }
         } catch (deleteError) {
             console.error('Error deleting old resume:', deleteError);
@@ -61,19 +62,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         // Read the file and upload to Vercel Blob
         const fileBuffer = readFileSync(file.filepath);
 
+        // Use addRandomSuffix to ensure unique URL for each upload
         const blob = await put('resume.pdf', fileBuffer, {
             access: 'public',
-            addRandomSuffix: false,
+            addRandomSuffix: true, // This ensures unique URL each time
         });
 
-        // Add cache-busting timestamp to URLs
-        const timestamp = Date.now();
-        const urlWithCacheBust = `${blob.url}?v=${timestamp}`;
-        const downloadUrlWithCacheBust = `${blob.downloadUrl}?v=${timestamp}`;
-
         return res.status(200).json({
-            url: urlWithCacheBust,
-            downloadUrl: downloadUrlWithCacheBust,
+            url: blob.url,
+            downloadUrl: blob.downloadUrl,
             fileName: file.originalFilename || 'resume.pdf',
             fileSize: file.size,
             uploadDate: new Date().toISOString(),
