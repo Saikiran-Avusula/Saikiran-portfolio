@@ -235,18 +235,9 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onLogout }) => {
         <div className="min-h-screen bg-slate-950 pt-24 pb-12">
             <div className="max-w-4xl mx-auto px-6">
                 {/* Header */}
-                <div className="flex justify-between items-center mb-12">
-                    <div>
-                        <h1 className="text-4xl font-bold text-white mb-2">Admin Panel</h1>
-                        <p className="text-slate-400">Manage your portfolio resume</p>
-                    </div>
-                    <button
-                        onClick={handleLogout}
-                        className="flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg transition-colors"
-                    >
-                        <LogOut size={20} />
-                        Logout
-                    </button>
+                <div className="mb-12">
+                    <h1 className="text-4xl font-bold text-white mb-2">Admin Panel</h1>
+                    <p className="text-slate-400">Manage your portfolio resume</p>
                 </div>
 
                 {/* Profile Image Section */}
