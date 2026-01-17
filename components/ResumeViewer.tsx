@@ -6,24 +6,13 @@ interface ResumeViewerProps {
     isOpen: boolean;
     onClose: () => void;
     resumeUrl: string;
-    downloadUrl: string;
-    fileName: string;
 }
 
 const ResumeViewer: React.FC<ResumeViewerProps> = ({
     isOpen,
     onClose,
     resumeUrl,
-    downloadUrl,
-    fileName,
 }) => {
-    const handleDownload = () => {
-        const link = document.createElement('a');
-        link.href = downloadUrl;
-        link.download = fileName;
-        link.click();
-    };
-
     return (
         <AnimatePresence>
             {isOpen && (
@@ -47,21 +36,12 @@ const ResumeViewer: React.FC<ResumeViewerProps> = ({
                         {/* Header */}
                         <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800">
                             <h2 className="text-xl font-semibold text-white">Resume</h2>
-                            <div className="flex items-center gap-2">
-                                <button
-                                    onClick={handleDownload}
-                                    className="flex items-center gap-2 px-4 py-2 bg-primary-600 hover:bg-primary-500 text-white rounded-lg transition-colors"
-                                >
-                                    <Download size={18} />
-                                    Download
-                                </button>
-                                <button
-                                    onClick={onClose}
-                                    className="p-2 hover:bg-slate-800 text-slate-400 hover:text-white rounded-lg transition-colors"
-                                >
-                                    <X size={24} />
-                                </button>
-                            </div>
+                            <button
+                                onClick={onClose}
+                                className="p-2 hover:bg-slate-800 text-slate-400 hover:text-white rounded-lg transition-colors"
+                            >
+                                <X size={24} />
+                            </button>
                         </div>
 
                         {/* PDF Viewer */}
