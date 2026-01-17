@@ -1,44 +1,36 @@
 import { del } from '@vercel/blob';
+import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-// Uses Node.js runtime (default) - required for @vercel/blob
+export default async function handler(req: VercelRequest, res: VercelResponse) {
+    // Enable CORS
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'DELETE, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-export default async function handler(request: Request) {
-    if (request.method !== 'DELETE') {
-        return new Response(JSON.stringify({ error: 'Method not allowed' }), {
-            status: 405,
-            headers: { 'Content-Type': 'application/json' },
-        });
+    if (req.method === 'OPTIONS') {
+        return res.status(200).end();
+    }
+
+    if (req.method !== 'DELETE') {
+        return res.status(405).json({ error: 'Method not allowed' });
     }
 
     try {
-        const { searchParams } = new URL(request.url);
-        const url = searchParams.get('url');
+        const { url } = req.query;
 
-        if (!url) {
-            return new Response(JSON.stringify({ error: 'No URL provided' }), {
-                status: 400,
-                headers: { 'Content-Type': 'application/json' },
-            });
+        if (!url || typeof url !== 'string') {
+            return res.status(400).json({ error: 'No URL provided' });
         }
 
         // Delete the blob
         await del(url);
 
-        return new Response(
-            JSON.stringify({ success: true, message: 'Resume deleted successfully' }),
-            {
-                status: 200,
-                headers: { 'Content-Type': 'application/json' },
-            }
-        );
+        return res.status(200).json({
+            success: true,
+            message: 'Resume deleted successfully'
+        });
     } catch (error) {
         console.error('Delete error:', error);
-        return new Response(
-            JSON.stringify({ error: 'Failed to delete resume' }),
-            {
-                status: 500,
-                headers: { 'Content-Type': 'application/json' },
-            }
-        );
+        return res.status(500).json({ error: 'Failed to delete resume' });
     }
 }

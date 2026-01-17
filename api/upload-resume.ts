@@ -1,69 +1,39 @@
 import { put } from '@vercel/blob';
+import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-// Uses Node.js runtime (default) - required for @vercel/blob
+export default async function handler(req: VercelRequest, res: VercelResponse) {
+    // Enable CORS
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-export default async function handler(request: Request) {
-    if (request.method !== 'POST') {
-        return new Response(JSON.stringify({ error: 'Method not allowed' }), {
-            status: 405,
-            headers: { 'Content-Type': 'application/json' },
-        });
+    if (req.method === 'OPTIONS') {
+        return res.status(200).end();
+    }
+
+    if (req.method !== 'POST') {
+        return res.status(405).json({ error: 'Method not allowed' });
     }
 
     try {
-        const formData = await request.formData();
-        const file = formData.get('file') as File;
+        // Handle multipart form data differently in Vercel
+        const contentType = req.headers['content-type'] || '';
 
-        if (!file) {
-            return new Response(JSON.stringify({ error: 'No file provided' }), {
-                status: 400,
-                headers: { 'Content-Type': 'application/json' },
-            });
+        if (!contentType.includes('multipart/form-data')) {
+            return res.status(400).json({ error: 'Content-Type must be multipart/form-data' });
         }
 
-        // Validate file type
-        if (file.type !== 'application/pdf') {
-            return new Response(JSON.stringify({ error: 'Only PDF files are allowed' }), {
-                status: 400,
-                headers: { 'Content-Type': 'application/json' },
-            });
-        }
+        // In Vercel, req.body will have the file if properly parsed
+        // We need to use a different approach for file handling
 
-        // Validate file size (max 10MB)
-        if (file.size > 10 * 1024 * 1024) {
-            return new Response(JSON.stringify({ error: 'File size must be less than 10MB' }), {
-                status: 400,
-                headers: { 'Content-Type': 'application/json' },
-            });
-        }
-
-        // Upload to Vercel Blob with a fixed name to always replace the previous resume
-        const blob = await put('resume.pdf', file, {
-            access: 'public',
-            addRandomSuffix: false, // Always use the same name to replace
+        // For now, return a helpful error
+        return res.status(501).json({
+            error: 'File upload needs to be implemented with proper multipart parsing',
+            message: 'This endpoint is under construction'
         });
 
-        return new Response(
-            JSON.stringify({
-                url: blob.url,
-                downloadUrl: blob.downloadUrl,
-                fileName: file.name,
-                fileSize: file.size,
-                uploadDate: new Date().toISOString(),
-            }),
-            {
-                status: 200,
-                headers: { 'Content-Type': 'application/json' },
-            }
-        );
     } catch (error) {
         console.error('Upload error:', error);
-        return new Response(
-            JSON.stringify({ error: 'Failed to upload resume' }),
-            {
-                status: 500,
-                headers: { 'Content-Type': 'application/json' },
-            }
-        );
+        return res.status(500).json({ error: 'Failed to upload resume' });
     }
 }

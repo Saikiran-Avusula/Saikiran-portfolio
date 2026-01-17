@@ -1,13 +1,18 @@
 import { list } from '@vercel/blob';
+import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-// Uses Node.js runtime (default) - required for @vercel/blob
+export default async function handler(req: VercelRequest, res: VercelResponse) {
+    // Enable CORS
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-export default async function handler(request: Request) {
-    if (request.method !== 'GET') {
-        return new Response(JSON.stringify({ error: 'Method not allowed' }), {
-            status: 405,
-            headers: { 'Content-Type': 'application/json' },
-        });
+    if (req.method === 'OPTIONS') {
+        return res.status(200).end();
+    }
+
+    if (req.method !== 'GET') {
+        return res.status(405).json({ error: 'Method not allowed' });
     }
 
     try {
@@ -18,38 +23,20 @@ export default async function handler(request: Request) {
         const resumeBlob = blobs.find(blob => blob.pathname === 'resume.pdf');
 
         if (!resumeBlob) {
-            return new Response(
-                JSON.stringify({ resume: null }),
-                {
-                    status: 200,
-                    headers: { 'Content-Type': 'application/json' },
-                }
-            );
+            return res.status(200).json({ resume: null });
         }
 
-        return new Response(
-            JSON.stringify({
-                resume: {
-                    url: resumeBlob.url,
-                    downloadUrl: resumeBlob.downloadUrl,
-                    fileName: 'resume.pdf',
-                    fileSize: resumeBlob.size,
-                    uploadDate: resumeBlob.uploadedAt,
-                },
-            }),
-            {
-                status: 200,
-                headers: { 'Content-Type': 'application/json' },
-            }
-        );
+        return res.status(200).json({
+            resume: {
+                url: resumeBlob.url,
+                downloadUrl: resumeBlob.downloadUrl,
+                fileName: 'resume.pdf',
+                fileSize: resumeBlob.size,
+                uploadDate: resumeBlob.uploadedAt,
+            },
+        });
     } catch (error) {
         console.error('Get resume error:', error);
-        return new Response(
-            JSON.stringify({ error: 'Failed to fetch resume' }),
-            {
-                status: 500,
-                headers: { 'Content-Type': 'application/json' },
-            }
-        );
+        return res.status(500).json({ error: 'Failed to fetch resume' });
     }
 }
