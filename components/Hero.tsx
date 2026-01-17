@@ -35,11 +35,16 @@ const Hero: React.FC = () => {
         // Open the cloud URL directly - no need to create blob URL
         window.open(resumeData.url, '_blank');
       } else {
-        alert('No resume uploaded yet. Please login to admin panel to upload your resume.');
+        alert('No resume available yet. The admin needs to upload a resume first.');
       }
     } catch (error) {
       console.error('Error loading resume:', error);
-      alert('Error loading resume. Please try again.');
+      // Check if it's a fetch error (API not responding) vs no resume
+      if (error instanceof TypeError) {
+        alert('Unable to connect to resume service. Please try again later.');
+      } else {
+        alert('No resume available yet. The admin needs to upload a resume first.');
+      }
     }
   };
 

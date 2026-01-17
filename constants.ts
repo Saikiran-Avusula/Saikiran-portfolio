@@ -94,7 +94,7 @@ export const PROJECTS: Project[] = [
     description: 'A responsive bus ticket booking interface featuring search filters, detailed ticket cards, invoice generation, and a checkout process.',
     tags: ['React.js', 'Tailwind CSS', 'Framer Motion'],
     category: 'Frontend',
-    image: '/image.png',
+    image: 'https://picsum.photos/600/400?random=3',
     githubUrl: 'https://github.com/Saikiran-Avusula/Bus-ticket-booking-application/tree/main',
     liveUrl: 'https://bus-ticket-booking-application-tau.vercel.app/'
   },
