@@ -7,7 +7,7 @@ import { Project, Skill, Experience, BlogPost, NavItem, Education, Certification
 export const PERSONAL_DETAILS = {
   name: "Sai Kiran Avusula",
   role: "Full-Stack Developer",
-  about: "Building scalable web applications with Java, Spring Boot, React, and MySQL. 2+ years of production experience. Currently shipping features at Hyper Grid Technology.",
+  about: "Building scalable web applications with Java, Spring Boot, React, and MySQL. 1+ years of production experience. Currently shipping features at Hyper Grid Technology.",
   social: {
     linkedin: "https://www.linkedin.com/in/sai-kiran-avusula-096655290/",
     github: "https://github.com/Saikiran-Avusula",
@@ -115,7 +115,7 @@ export const EXPERIENCE: Experience[] = [
     id: 1,
     role: 'Associate Software Engineer',
     company: 'Hyper Grid Technology Solution Pvt Ltd.',
-    period: 'November 2024 - Present',
+    period: 'August 2025 - Present',
     description: [
       'Developing REST APIs using Spring Boot and MySQL for business domains.',
       'Building responsive web interfaces with React.js and Tailwind CSS.',
@@ -127,7 +127,7 @@ export const EXPERIENCE: Experience[] = [
     id: 2,
     role: 'Junior Developer',
     company: 'Amoghnya Tech Solutions Pvt Ltd',
-    period: 'April 2023 - April 2024',
+    period: 'April 2023 - January 2025',
     description: [
       'Developed user-facing features for internal platforms using HTML, CSS, JavaScript, and Bootstrap.',
       'Utilized agile methodologies and collaborative version control with GitHub.',

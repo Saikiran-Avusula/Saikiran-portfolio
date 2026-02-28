@@ -81,7 +81,7 @@ const About: React.FC = () => {
                     {/* Stats */}
                     <div className="grid gap-6 mt-10 pt-10 border-t border-slate-800">
                         <div className="text-center">
-                            <div className="text-4xl font-bold text-primary-400 mb-2">2+</div>
+                            <div className="text-4xl font-bold text-primary-400 mb-2">1+</div>
                             <div className="text-slate-400 text-sm">Years Experience</div>
                         </div>
                     </div>
