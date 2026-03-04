@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { PROJECTS } from '../constants';
-import { ExternalLink, Github, Layout } from 'lucide-react';
+import { ExternalLink, Github, ChevronDown, ChevronUp } from 'lucide-react';
 
 const categories = ['All', 'Backend', 'Frontend', 'Full Stack', 'AI'];
 
 const Projects: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState('All');
+  const [expandedMobile, setExpandedMobile] = useState<number | null>(null);
 
   const filteredProjects = activeCategory === 'All'
     ? PROJECTS
@@ -106,9 +107,31 @@ const Projects: React.FC = () => {
                   <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-primary-400 transition-colors">
                     {project.title}
                   </h3>
-                  <p className="text-slate-400 text-base mb-4 line-clamp-3">
-                    {project.description}
-                  </p>
+                  
+                  {/* Desktop: Hover to show full description */}
+                  <div className="hidden md:block relative">
+                    <p className="text-slate-400 text-base mb-4 line-clamp-2 group-hover:line-clamp-none transition-all">
+                      {project.description}
+                    </p>
+                  </div>
+
+                  {/* Mobile: Click to expand */}
+                  <div className="md:hidden">
+                    <p className={`text-slate-400 text-sm mb-2 ${expandedMobile === project.id ? '' : 'line-clamp-2'}`}>
+                      {project.description}
+                    </p>
+                    <button
+                      onClick={() => setExpandedMobile(expandedMobile === project.id ? null : project.id)}
+                      className="flex items-center gap-1 text-primary-400 text-sm font-medium mb-4"
+                    >
+                      {expandedMobile === project.id ? (
+                        <><ChevronUp size={16} /> Show Less</>
+                      ) : (
+                        <><ChevronDown size={16} /> Read More</>
+                      )}
+                    </button>
+                  </div>
+
                   <div className="flex flex-wrap gap-2">
                     {project.tags.map((tag) => (
                       <span key={tag} className="px-3 py-1 bg-slate-800 text-sm text-slate-300 rounded-md">

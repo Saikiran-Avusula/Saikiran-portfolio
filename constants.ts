@@ -70,23 +70,23 @@ export const SKILLS: Skill[] = [
 export const PROJECTS: Project[] = [
   {
     id: 1,
-    title: 'Job Board Application',
-    description: 'A full-stack job posting platform allowing companies to post jobs and candidates to apply. Features role-based authentication (JWT), job management, and application tracking.',
-    tags: ['Spring Boot', 'MySQL', 'JWT', 'React'],
+    title: 'Papikondalu Tourism — Regional Tourism Platform',
+    description: 'A comprehensive tourism website for Papikondalu and East Godavari region. Built with Next.js 15 and TypeScript featuring tour packages, booking system, image gallery with lazy loading, WhatsApp integration, and SEO optimization with Lighthouse scores above 90.',
+    tags: ['Next.js 15', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'React', 'Node.js', 'Vercel'],
     category: 'Full Stack',
-    image: 'https://picsum.photos/600/400?random=10',
+    image: '/papikondalu.jpg',
     githubUrl: PERSONAL_DETAILS.social.github,
-    liveUrl: '#'
+    liveUrl: 'https://papikondalu01-lemon.vercel.app/'
   },
   {
     id: 2,
-    title: 'Notes API',
-    description: 'A secure RESTful API for note-taking with full CRUD functionality. Implemented JWT-based authentication for secure access and MySQL for data persistence.',
-    tags: ['Spring Boot', 'MySQL', 'JWT', 'REST API'],
-    category: 'Backend',
-    image: 'https://picsum.photos/600/400?random=11',
-    githubUrl: 'https://github.com/Saikiran-Avusula/notes-api-frontend/tree/main',
-    liveUrl: 'https://notes-api-frontend-seven.vercel.app/login'
+    title: 'SLSIT Skillup — Educational Platform',
+    description: 'A fully responsive educational platform for SLSIT Skillup offering technology courses and career training. Features dynamic course catalog, enrollment system, contact form with Node.js backend, glassmorphism UI, gradient animations, and particle backgrounds built with React 18 and Vite.',
+    tags: ['React.js', 'Tailwind CSS', 'Framer Motion', 'React Router', 'Lucide React', 'Node.js', 'Vite'],
+    category: 'Frontend',
+    image: '/slsit.jpg',
+    githubUrl: PERSONAL_DETAILS.social.github,
+    liveUrl: 'https://slsitskillup-phi.vercel.app/'
   },
   {
     id: 3,
