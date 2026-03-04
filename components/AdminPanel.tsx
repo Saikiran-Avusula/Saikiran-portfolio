@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Upload, FileText, Trash2, LogOut, Download, Check, X, Image as ImageIcon } from 'lucide-react';
+import { Upload, FileText, Trash2, Download, Check, X, Image as ImageIcon } from 'lucide-react';
 import { authService } from '../services/authService';
 import { resumeService } from '../services/resumeService';
 import { imageService } from '../services/imageService';
@@ -17,7 +17,6 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onLogout }) => {
     const [error, setError] = useState('');
     const [currentResume, setCurrentResume] = useState<{ url: string; fileName: string; fileSize: number; uploadDate: string } | null>(null);
 
-    // Profile Image State
     const [isImageDragging, setIsImageDragging] = useState(false);
     const [imageUploading, setImageUploading] = useState(false);
     const [imageUploadSuccess, setImageUploadSuccess] = useState(false);
@@ -66,13 +65,11 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onLogout }) => {
         setError('');
         setUploadSuccess(false);
 
-        // Validate file type
         if (file.type !== 'application/pdf') {
             setError('Only PDF files are allowed');
             return;
         }
 
-        // Validate file size (max 10MB)
         if (file.size > 10 * 1024 * 1024) {
             setError('File size must be less than 10MB');
             return;
@@ -82,11 +79,9 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onLogout }) => {
             setUploading(true);
             setUploadProgress(0);
 
-            // Create FormData
             const formData = new FormData();
             formData.append('file', file);
 
-            // Use XMLHttpRequest for progress tracking
             const xhr = new XMLHttpRequest();
 
             xhr.upload.addEventListener('progress', (e) => {
@@ -98,12 +93,8 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onLogout }) => {
 
             xhr.addEventListener('load', async () => {
                 if (xhr.status === 200) {
-                    // Small delay to ensure blob storage is updated
                     await new Promise(resolve => setTimeout(resolve, 500));
-
-                    // Reload from server to get fresh data
                     await loadCurrentResume();
-
                     setUploadSuccess(true);
                     setTimeout(() => setUploadSuccess(false), 3000);
                 } else {
@@ -146,12 +137,6 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onLogout }) => {
         }
     };
 
-    const handleLogout = () => {
-        authService.logout();
-        onLogout();
-    };
-
-    // Image Upload Handlers
     const handleImageDragOver = (e: React.DragEvent) => {
         e.preventDefault();
         setIsImageDragging(true);
@@ -179,13 +164,11 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onLogout }) => {
         setImageError('');
         setImageUploadSuccess(false);
 
-        // Validate file type
         if (!file.type.startsWith('image/')) {
             setImageError('Only image files are allowed');
             return;
         }
 
-        // Validate file size (max 5MB)
         if (file.size > 5 * 1024 * 1024) {
             setImageError('Image size must be less than 5MB');
             return;
@@ -232,26 +215,26 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onLogout }) => {
     };
 
     return (
-        <div className="min-h-screen bg-slate-950 pt-24 pb-12">
+        <div className="min-h-screen bg-black pt-24 pb-12">
             <div className="max-w-4xl mx-auto px-6">
-                {/* Header */}
                 <div className="mb-12">
-                    <h1 className="text-4xl font-bold text-white mb-2">Admin Panel</h1>
-                    <p className="text-slate-400">Manage your portfolio resume</p>
+                    <h1 className="text-5xl md:text-6xl font-black text-white mb-2 tracking-tight">
+                        Admin <span className="gradient-text">Panel</span>
+                    </h1>
+                    <p className="text-slate-400 font-semibold">Manage your portfolio content</p>
                 </div>
 
                 {/* Profile Image Section */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="glass-panel rounded-2xl p-8 mb-8"
+                    className="bento-card rounded-3xl p-8 mb-8"
                 >
-                    <h2 className="text-xl font-semibold text-white mb-6">Profile Image</h2>
+                    <h2 className="text-2xl font-black text-white mb-6">Profile Image</h2>
 
-                    {/* Current Image Preview */}
                     {currentImage && (
                         <div className="mb-6 flex items-center gap-4">
-                            <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-slate-800">
+                            <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-white/20">
                                 <img
                                     src={URL.createObjectURL(currentImage.file)}
                                     alt="Profile"
@@ -259,13 +242,13 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onLogout }) => {
                                 />
                             </div>
                             <div className="flex-1">
-                                <p className="text-white font-medium">{currentImage.fileName}</p>
+                                <p className="text-white font-bold">{currentImage.fileName}</p>
                                 <p className="text-slate-400 text-sm">
                                     {formatFileSize(currentImage.fileSize)} • Uploaded {formatDate(currentImage.uploadDate)}
                                 </p>
                                 <button
                                     onClick={handleImageDelete}
-                                    className="mt-2 flex items-center gap-2 px-3 py-1.5 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-lg transition-colors text-sm"
+                                    className="mt-2 flex items-center gap-2 px-3 py-1.5 bg-red-600/20 hover:bg-red-600/30 text-red-400 rounded-xl transition-colors text-sm font-bold border border-red-500/30"
                                 >
                                     <Trash2 size={16} />
                                     Delete Image
@@ -274,14 +257,13 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onLogout }) => {
                         </div>
                     )}
 
-                    {/* Upload Zone */}
                     <div
                         onDragOver={handleImageDragOver}
                         onDragLeave={handleImageDragLeave}
                         onDrop={handleImageDrop}
-                        className={`relative border-2 border-dashed rounded-xl p-8 text-center transition-all ${isImageDragging
-                            ? 'border-primary-500 bg-primary-500/10'
-                            : 'border-slate-700 hover:border-slate-600'
+                        className={`relative border-2 border-dashed rounded-2xl p-8 text-center transition-all ${isImageDragging
+                            ? 'border-indigo-500 bg-indigo-500/10'
+                            : 'border-white/20 hover:border-white/30'
                             }`}
                     >
                         <input
@@ -294,26 +276,26 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onLogout }) => {
 
                         {imageUploading ? (
                             <div className="flex flex-col items-center">
-                                <div className="w-12 h-12 border-4 border-primary-500 border-t-transparent rounded-full animate-spin mb-3"></div>
-                                <p className="text-white font-medium">Uploading...</p>
+                                <div className="w-12 h-12 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin mb-3"></div>
+                                <p className="text-white font-bold">Uploading...</p>
                             </div>
                         ) : imageUploadSuccess ? (
                             <div className="flex flex-col items-center">
                                 <div className="w-12 h-12 bg-green-500/20 rounded-full flex items-center justify-center mb-3">
                                     <Check className="text-green-400" size={24} />
                                 </div>
-                                <p className="text-green-400 font-medium">Image uploaded!</p>
+                                <p className="text-green-400 font-bold">Image uploaded!</p>
                             </div>
                         ) : (
                             <div className="flex flex-col items-center">
-                                <div className="w-12 h-12 bg-primary-500/10 rounded-full flex items-center justify-center mb-3">
-                                    <ImageIcon className="text-primary-400" size={24} />
+                                <div className="w-12 h-12 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-2xl flex items-center justify-center mb-3">
+                                    <ImageIcon className="text-white" size={24} />
                                 </div>
-                                <p className="text-white font-medium mb-1">
+                                <p className="text-white font-bold mb-1">
                                     {currentImage ? 'Upload New Profile Image' : 'Upload Profile Image'}
                                 </p>
-                                <p className="text-slate-400 text-sm mb-2">Drag and drop or click to browse</p>
-                                <p className="text-slate-500 text-xs">
+                                <p className="text-slate-400 text-sm mb-2 font-semibold">Drag and drop or click to browse</p>
+                                <p className="text-slate-500 text-xs font-semibold">
                                     JPG, PNG • Max 5MB
                                     {currentImage && ' • Will replace current image'}
                                 </p>
@@ -321,35 +303,34 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onLogout }) => {
                         )}
                     </div>
 
-                    {/* Error Message */}
                     {imageError && (
                         <motion.div
                             initial={{ opacity: 0, y: -10 }}
                             animate={{ opacity: 1, y: 0 }}
-                            className="mt-4 p-3 bg-red-500/10 border border-red-500/50 rounded-lg flex items-start gap-3"
+                            className="mt-4 p-3 bg-red-500/10 border-2 border-red-500/50 rounded-2xl flex items-start gap-3"
                         >
                             <X className="text-red-400 flex-shrink-0 mt-0.5" size={18} />
-                            <p className="text-red-400 text-sm">{imageError}</p>
+                            <p className="text-red-400 text-sm font-bold">{imageError}</p>
                         </motion.div>
                     )}
                 </motion.div>
 
-                {/* Current Resume Status */}
+                {/* Current Resume */}
                 {currentResume && (
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="glass-panel rounded-2xl p-6 mb-8"
+                        className="bento-card rounded-3xl p-6 mb-8"
                     >
-                        <h2 className="text-xl font-semibold text-white mb-4">Current Resume</h2>
+                        <h2 className="text-2xl font-black text-white mb-4">Current Resume</h2>
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-4">
-                                <div className="w-12 h-12 bg-primary-500/10 rounded-lg flex items-center justify-center">
-                                    <FileText className="text-primary-400" size={24} />
+                                <div className="w-12 h-12 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-2xl flex items-center justify-center">
+                                    <FileText className="text-white" size={24} />
                                 </div>
                                 <div>
-                                    <p className="text-white font-medium">{currentResume.fileName}</p>
-                                    <p className="text-slate-400 text-sm">
+                                    <p className="text-white font-bold">{currentResume.fileName}</p>
+                                    <p className="text-slate-400 text-sm font-semibold">
                                         {formatFileSize(currentResume.fileSize)} • Uploaded {formatDate(currentResume.uploadDate)}
                                     </p>
                                 </div>
@@ -357,14 +338,14 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onLogout }) => {
                             <div className="flex gap-2">
                                 <button
                                     onClick={handleDownload}
-                                    className="p-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg transition-colors"
+                                    className="p-2 bg-white/5 hover:bg-white/10 text-slate-300 rounded-xl transition-colors border border-white/10"
                                     title="Download"
                                 >
                                     <Download size={20} />
                                 </button>
                                 <button
                                     onClick={handleDelete}
-                                    className="p-2 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-lg transition-colors"
+                                    className="p-2 bg-red-600/20 hover:bg-red-600/30 text-red-400 rounded-xl transition-colors border border-red-500/30"
                                     title="Delete"
                                 >
                                     <Trash2 size={20} />
@@ -380,13 +361,13 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onLogout }) => {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.05 }}
-                        className="glass-panel rounded-2xl p-6 mb-8"
+                        className="bento-card rounded-3xl p-6 mb-8"
                     >
-                        <h2 className="text-xl font-semibold text-white mb-4">Resume Preview</h2>
-                        <div className="bg-slate-900 rounded-lg overflow-hidden border border-slate-800">
+                        <h2 className="text-2xl font-black text-white mb-4">Resume Preview</h2>
+                        <div className="bg-black rounded-2xl overflow-hidden border-2 border-white/10">
                             <iframe
                                 src={`${currentResume.url}#toolbar=0&view=FitH`}
-                                className="w-full h-[600px] rounded-lg"
+                                className="w-full h-[600px] rounded-2xl"
                                 title="Resume Preview"
                                 key={currentResume.uploadDate}
                             />
@@ -399,20 +380,19 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onLogout }) => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.1 }}
-                    className="glass-panel rounded-2xl p-8"
+                    className="bento-card rounded-3xl p-8"
                 >
-                    <h2 className="text-xl font-semibold text-white mb-6">
+                    <h2 className="text-2xl font-black text-white mb-6">
                         {currentResume ? 'Upload New Resume' : 'Upload Resume'}
                     </h2>
 
-                    {/* Drag and Drop Zone */}
                     <div
                         onDragOver={handleDragOver}
                         onDragLeave={handleDragLeave}
                         onDrop={handleDrop}
-                        className={`relative border-2 border-dashed rounded-xl p-12 text-center transition-all ${isDragging
-                            ? 'border-primary-500 bg-primary-500/10'
-                            : 'border-slate-700 hover:border-slate-600'
+                        className={`relative border-2 border-dashed rounded-2xl p-12 text-center transition-all ${isDragging
+                            ? 'border-indigo-500 bg-indigo-500/10'
+                            : 'border-white/20 hover:border-white/30'
                             }`}
                     >
                         <input
@@ -425,10 +405,8 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onLogout }) => {
 
                         {uploading ? (
                             <div className="flex flex-col items-center">
-                                {/* Circular Progress */}
                                 <div className="relative w-24 h-24 mb-4">
                                     <svg className="w-full h-full transform -rotate-90">
-                                        {/* Background circle */}
                                         <circle
                                             cx="48"
                                             cy="48"
@@ -436,9 +414,8 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onLogout }) => {
                                             stroke="currentColor"
                                             strokeWidth="6"
                                             fill="none"
-                                            className="text-slate-700"
+                                            className="text-white/10"
                                         />
-                                        {/* Progress circle */}
                                         <circle
                                             cx="48"
                                             cy="48"
@@ -448,34 +425,34 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onLogout }) => {
                                             fill="none"
                                             strokeDasharray={`${2 * Math.PI * 40}`}
                                             strokeDashoffset={`${2 * Math.PI * 40 * (1 - uploadProgress / 100)}`}
-                                            className="text-primary-500 transition-all duration-300"
+                                            className="text-indigo-500 transition-all duration-300"
                                             strokeLinecap="round"
                                         />
                                     </svg>
                                     <div className="absolute inset-0 flex items-center justify-center">
-                                        <span className="text-2xl font-bold text-white">{uploadProgress}%</span>
+                                        <span className="text-2xl font-black text-white">{uploadProgress}%</span>
                                     </div>
                                 </div>
-                                <p className="text-white font-medium">Uploading resume...</p>
-                                <p className="text-slate-400 text-sm mt-1">{uploadProgress}% complete</p>
+                                <p className="text-white font-bold">Uploading resume...</p>
+                                <p className="text-slate-400 text-sm mt-1 font-semibold">{uploadProgress}% complete</p>
                             </div>
                         ) : uploadSuccess ? (
                             <div className="flex flex-col items-center">
                                 <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mb-4">
                                     <Check className="text-green-400" size={32} />
                                 </div>
-                                <p className="text-green-400 font-medium">Resume uploaded successfully!</p>
+                                <p className="text-green-400 font-black">Resume uploaded successfully!</p>
                             </div>
                         ) : (
                             <div className="flex flex-col items-center">
-                                <div className="w-16 h-16 bg-primary-500/10 rounded-full flex items-center justify-center mb-4">
-                                    <Upload className="text-primary-400" size={32} />
+                                <div className="w-16 h-16 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-2xl flex items-center justify-center mb-4">
+                                    <Upload className="text-white" size={32} />
                                 </div>
-                                <p className="text-white font-medium mb-2">
+                                <p className="text-white font-bold mb-2">
                                     Drag and drop your resume here
                                 </p>
-                                <p className="text-slate-400 text-sm mb-4">or click to browse files</p>
-                                <p className="text-slate-500 text-xs">
+                                <p className="text-slate-400 text-sm mb-4 font-semibold">or click to browse files</p>
+                                <p className="text-slate-500 text-xs font-semibold">
                                     PDF only • Max 10MB
                                     {currentResume && ' • Will replace current resume'}
                                 </p>
@@ -483,15 +460,14 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onLogout }) => {
                         )}
                     </div>
 
-                    {/* Error Message */}
                     {error && (
                         <motion.div
                             initial={{ opacity: 0, y: -10 }}
                             animate={{ opacity: 1, y: 0 }}
-                            className="mt-4 p-4 bg-red-500/10 border border-red-500/50 rounded-lg flex items-start gap-3"
+                            className="mt-4 p-4 bg-red-500/10 border-2 border-red-500/50 rounded-2xl flex items-start gap-3"
                         >
                             <X className="text-red-400 flex-shrink-0 mt-0.5" size={20} />
-                            <p className="text-red-400 text-sm">{error}</p>
+                            <p className="text-red-400 text-sm font-bold">{error}</p>
                         </motion.div>
                     )}
                 </motion.div>

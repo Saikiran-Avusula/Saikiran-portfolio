@@ -33,23 +33,20 @@ const Login: React.FC<LoginProps> = ({ isOpen, onClose, onLoginSuccess }) => {
     return (
         <AnimatePresence>
             <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-                {/* Backdrop */}
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     onClick={onClose}
-                    className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+                    className="absolute inset-0 bg-black/80 backdrop-blur-sm"
                 />
 
-                {/* Modal */}
                 <motion.div
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.95 }}
-                    className="relative glass-panel rounded-2xl p-8 w-full max-w-md"
+                    className="relative bento-card rounded-3xl p-8 w-full max-w-md"
                 >
-                    {/* Close Button */}
                     <button
                         onClick={onClose}
                         className="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors"
@@ -57,17 +54,16 @@ const Login: React.FC<LoginProps> = ({ isOpen, onClose, onLoginSuccess }) => {
                         <X size={24} />
                     </button>
 
-                    {/* Header */}
                     <div className="text-center mb-8">
-                        <h2 className="text-3xl font-bold text-white mb-2">Admin Login</h2>
-                        <p className="text-slate-400">Sign in to manage your portfolio</p>
+                        <h2 className="text-4xl font-black text-white mb-2 tracking-tight">
+                            Admin <span className="gradient-text">Login</span>
+                        </h2>
+                        <p className="text-slate-400 font-semibold">Sign in to manage your portfolio</p>
                     </div>
 
-                    {/* Form */}
                     <form onSubmit={handleSubmit} className="space-y-6">
-                        {/* Email Field */}
                         <div>
-                            <label className="block text-sm font-medium text-slate-300 mb-2">
+                            <label className="block text-sm font-bold text-slate-300 mb-2">
                                 Email
                             </label>
                             <div className="relative">
@@ -76,16 +72,15 @@ const Login: React.FC<LoginProps> = ({ isOpen, onClose, onLoginSuccess }) => {
                                     type="email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    className="w-full pl-12 pr-4 py-3 bg-slate-900/50 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-primary-500 transition-colors"
+                                    className="w-full pl-12 pr-4 py-3 bg-white/5 border-2 border-white/10 rounded-2xl text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition-colors font-semibold"
                                     placeholder="Enter your email"
                                     required
                                 />
                             </div>
                         </div>
 
-                        {/* Password Field */}
                         <div>
-                            <label className="block text-sm font-medium text-slate-300 mb-2">
+                            <label className="block text-sm font-bold text-slate-300 mb-2">
                                 Password
                             </label>
                             <div className="relative">
@@ -94,28 +89,26 @@ const Login: React.FC<LoginProps> = ({ isOpen, onClose, onLoginSuccess }) => {
                                     type="password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="w-full pl-12 pr-4 py-3 bg-slate-900/50 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-primary-500 transition-colors"
+                                    className="w-full pl-12 pr-4 py-3 bg-white/5 border-2 border-white/10 rounded-2xl text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition-colors font-semibold"
                                     placeholder="Enter your password"
                                     required
                                 />
                             </div>
                         </div>
 
-                        {/* Error Message */}
                         {error && (
                             <motion.div
                                 initial={{ opacity: 0, y: -10 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                className="p-3 bg-red-500/10 border border-red-500/50 rounded-lg text-red-400 text-sm"
+                                className="p-3 bg-red-500/10 border-2 border-red-500/50 rounded-2xl text-red-400 text-sm font-bold"
                             >
                                 {error}
                             </motion.div>
                         )}
 
-                        {/* Submit Button */}
                         <button
                             type="submit"
-                            className="w-full py-3 bg-primary-600 hover:bg-primary-500 text-white font-medium rounded-lg transition-colors"
+                            className="w-full py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-black rounded-2xl transition-all hover:scale-105 shadow-2xl shadow-indigo-600/50"
                         >
                             Sign In
                         </button>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { NAV_ITEMS } from '../constants';
-import { Menu, X, Terminal, Lock, Settings, LogOut } from 'lucide-react';
+import { Menu, X, Lock, Settings, LogOut } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { authService } from '../services/authService';
 
@@ -27,16 +27,12 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenLogin, onNavigateAdmin, onNavigat
 
   useEffect(() => {
     setIsAuthenticated(authService.isAuthenticated());
-  }, [isAdminView]); // Re-check authentication when view changes
+  }, [isAdminView]);
 
   const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
     setIsOpen(false);
-
-    // Navigate to home view first
     onNavigateHome();
-
-    // Wait for view to update, then scroll
     setTimeout(() => {
       const element = document.querySelector(href);
       if (element) {
@@ -47,18 +43,16 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenLogin, onNavigateAdmin, onNavigat
 
   return (
     <>
-      {/* Main Navbar */}
       <motion.nav
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${scrolled || isOpen
-          ? 'bg-slate-950/95 backdrop-blur-xl border-b border-slate-800/50 shadow-lg'
+          ? 'bg-black/90 backdrop-blur-2xl border-b border-white/10 shadow-2xl'
           : 'bg-transparent'
           }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between h-16 sm:h-20">
-            {/* Logo */}
             <motion.a
               href="#home"
               onClick={(e) => scrollToSection(e, '#home')}
@@ -66,74 +60,46 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenLogin, onNavigateAdmin, onNavigat
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              {/* Hexagonal Logo Badge */}
               <div className="relative w-10 h-10 sm:w-12 sm:h-12">
-                {/* Hexagon Background */}
-                <svg
-                  viewBox="0 0 100 100"
-                  className="absolute inset-0 w-full h-full"
-                >
-                  <defs>
-                    <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stopColor="#3b82f6" />
-                      <stop offset="100%" stopColor="#8b5cf6" />
-                    </linearGradient>
-                  </defs>
-                  <polygon
-                    points="50,5 90,27.5 90,72.5 50,95 10,72.5 10,27.5"
-                    fill="url(#logoGradient)"
-                    className="transition-all duration-300 group-hover:scale-110"
-                  />
-                  <polygon
-                    points="50,10 85,30 85,70 50,90 15,70 15,30"
-                    fill="#0f172a"
-                    className="opacity-90"
-                  />
-                </svg>
-                {/* SK Text */}
+                <div className="absolute inset-0 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-2xl group-hover:scale-110 transition-transform"></div>
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-xl sm:text-2xl font-black bg-gradient-to-br from-primary-300 to-primary-500 bg-clip-text text-transparent">
-                    SK
-                  </span>
+                  <span className="text-xl sm:text-2xl font-black text-white">SK</span>
                 </div>
-                {/* Glow Effect */}
-                <div className="absolute inset-0 bg-gradient-to-br from-primary-400/20 to-purple-500/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="absolute inset-0 bg-gradient-to-br from-indigo-400/30 to-purple-500/30 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </div>
 
               <div className="flex flex-col">
-                <span className="font-mono font-bold text-lg sm:text-xl bg-gradient-to-r from-primary-400 via-primary-300 to-purple-400 bg-clip-text text-transparent leading-tight">
+                <span className="font-black text-lg sm:text-xl gradient-text leading-tight">
                   Sai Kiran
                 </span>
-                <span className="text-[10px] sm:text-xs text-slate-500 font-medium tracking-wider">
+                <span className="text-[10px] sm:text-xs text-slate-500 font-black tracking-widest">
                   FULL STACK DEV
                 </span>
               </div>
             </motion.a>
 
-            {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center gap-1">
               {NAV_ITEMS.map((item) => (
                 <a
                   key={item.label}
                   href={item.href}
                   onClick={(e) => scrollToSection(e, item.href)}
-                  className="relative px-4 py-2 text-sm font-medium text-slate-300 hover:text-white transition-colors group cursor-pointer"
+                  className="relative px-4 py-2 text-sm font-bold text-slate-300 hover:text-white transition-colors group cursor-pointer"
                 >
                   <span className="relative z-10">{item.label}</span>
-                  <div className="absolute inset-0 bg-slate-800/50 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity" />
-                  <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-primary-400 to-primary-500 group-hover:w-3/4 transition-all duration-300" />
+                  <div className="absolute inset-0 bg-white/5 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-1 bg-gradient-to-r from-indigo-600 to-purple-600 group-hover:w-3/4 transition-all duration-300 rounded-full" />
                 </a>
               ))}
             </div>
 
-            {/* Desktop Action Button */}
             <div className="hidden lg:flex items-center gap-3">
               {isAuthenticated ? (
                 <>
                   {!isAdminView && (
                     <motion.button
                       onClick={onNavigateAdmin}
-                      className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-primary-400 text-white text-sm font-semibold rounded-lg transition-all shadow-lg shadow-primary-600/25 hover:shadow-primary-500/40"
+                      className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white text-sm font-bold rounded-2xl transition-all shadow-2xl shadow-indigo-600/50"
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                     >
@@ -143,7 +109,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenLogin, onNavigateAdmin, onNavigat
                   )}
                   <motion.button
                     onClick={onLogout}
-                    className="flex items-center gap-2 px-4 py-2.5 bg-slate-800/80 hover:bg-slate-700 text-white text-sm font-semibold rounded-lg transition-all border border-slate-700/50 hover:border-slate-600"
+                    className="flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-white/10 text-white text-sm font-bold rounded-2xl transition-all border-2 border-white/10 hover:border-white/20"
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
@@ -154,7 +120,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenLogin, onNavigateAdmin, onNavigat
               ) : (
                 <motion.button
                   onClick={onOpenLogin}
-                  className="flex items-center gap-2 px-5 py-2.5 bg-slate-800/80 hover:bg-slate-700 text-white text-sm font-semibold rounded-lg transition-all border border-slate-700/50 hover:border-slate-600"
+                  className="flex items-center gap-2 px-5 py-2.5 bg-white/5 hover:bg-white/10 text-white text-sm font-bold rounded-2xl transition-all border-2 border-white/10 hover:border-white/20"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
@@ -164,7 +130,6 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenLogin, onNavigateAdmin, onNavigat
               )}
             </div>
 
-            {/* Mobile Menu Button */}
             <motion.button
               onClick={() => setIsOpen(!isOpen)}
               className="lg:hidden relative p-2.5 text-slate-300 hover:text-white transition-colors z-[101]"
@@ -199,51 +164,45 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenLogin, onNavigateAdmin, onNavigat
         </div>
       </motion.nav>
 
-      {/* Mobile Menu Overlay */}
       <AnimatePresence>
         {isOpen && (
           <>
-            {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[90] lg:hidden"
+              className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[90] lg:hidden"
               onClick={() => setIsOpen(false)}
             />
 
-            {/* Mobile Menu */}
             <motion.div
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="fixed top-0 right-0 bottom-0 w-[85%] max-w-sm bg-slate-900/98 backdrop-blur-2xl border-l border-slate-800/50 z-[95] lg:hidden overflow-y-auto"
+              className="fixed top-0 right-0 bottom-0 w-[85%] max-w-sm bg-black/95 backdrop-blur-2xl border-l border-white/10 z-[95] lg:hidden overflow-y-auto"
             >
-              {/* Mobile Menu Content */}
               <div className="flex flex-col h-full pt-24 px-6 pb-6">
-                {/* Navigation Links */}
                 <div className="flex flex-col gap-2 mb-8">
                   {NAV_ITEMS.map((item, index) => (
                     <motion.a
                       key={item.label}
                       href={item.href}
                       onClick={(e) => scrollToSection(e, item.href)}
-                      className="group relative px-5 py-4 text-lg font-semibold text-slate-300 hover:text-white transition-colors cursor-pointer overflow-hidden rounded-xl"
+                      className="group relative px-5 py-4 text-lg font-black text-slate-300 hover:text-white transition-colors cursor-pointer overflow-hidden rounded-2xl"
                       initial={{ opacity: 0, x: 50 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: index * 0.05 }}
                       whileTap={{ scale: 0.98 }}
                     >
-                      <div className="absolute inset-0 bg-gradient-to-r from-primary-600/10 to-primary-500/5 opacity-0 group-hover:opacity-100 transition-opacity" />
-                      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-0 bg-gradient-to-b from-primary-400 to-primary-500 group-hover:h-2/3 transition-all duration-300" />
+                      <div className="absolute inset-0 bg-gradient-to-r from-indigo-600/20 to-purple-600/20 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-0 bg-gradient-to-b from-indigo-600 to-purple-600 group-hover:h-2/3 transition-all duration-300 rounded-full" />
                       <span className="relative z-10">{item.label}</span>
                     </motion.a>
                   ))}
                 </div>
 
-                {/* Mobile Action Button */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -258,7 +217,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenLogin, onNavigateAdmin, onNavigat
                             setIsOpen(false);
                             onNavigateAdmin();
                           }}
-                          className="w-full flex items-center justify-center gap-3 px-6 py-4 bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-primary-400 text-white text-base font-bold rounded-xl transition-all shadow-lg shadow-primary-600/25"
+                          className="w-full flex items-center justify-center gap-3 px-6 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white text-base font-black rounded-2xl transition-all shadow-2xl shadow-indigo-600/50"
                         >
                           <Settings size={20} />
                           Admin Panel
@@ -269,7 +228,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenLogin, onNavigateAdmin, onNavigat
                           setIsOpen(false);
                           onLogout();
                         }}
-                        className="w-full flex items-center justify-center gap-3 px-6 py-4 bg-slate-800 hover:bg-slate-700 text-white text-base font-bold rounded-xl transition-all border border-slate-700/50 hover:border-slate-600"
+                        className="w-full flex items-center justify-center gap-3 px-6 py-4 bg-white/5 hover:bg-white/10 text-white text-base font-black rounded-2xl transition-all border-2 border-white/10 hover:border-white/20"
                       >
                         <LogOut size={20} />
                         Logout
@@ -281,7 +240,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenLogin, onNavigateAdmin, onNavigat
                         setIsOpen(false);
                         onOpenLogin();
                       }}
-                      className="w-full flex items-center justify-center gap-3 px-6 py-4 bg-slate-800 hover:bg-slate-700 text-white text-base font-bold rounded-xl transition-all border border-slate-700/50 hover:border-slate-600"
+                      className="w-full flex items-center justify-center gap-3 px-6 py-4 bg-white/5 hover:bg-white/10 text-white text-base font-black rounded-2xl transition-all border-2 border-white/10 hover:border-white/20"
                     >
                       <Lock size={20} />
                       Login
@@ -289,12 +248,11 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenLogin, onNavigateAdmin, onNavigat
                   )}
                 </motion.div>
 
-                {/* Mobile Menu Footer */}
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.3 }}
-                  className="mt-8 pt-6 border-t border-slate-800/50 text-center text-sm text-slate-500"
+                  className="mt-8 pt-6 border-t border-white/10 text-center text-sm text-slate-500 font-bold"
                 >
                   Made with ❤️ by Sai Kiran
                 </motion.div>
