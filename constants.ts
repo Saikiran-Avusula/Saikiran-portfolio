@@ -21,7 +21,7 @@ export const ABOUT_INTRO = {
     "I'm a full-stack developer with 2 years of experience, including an internship. I work mostly on the backend with Java, Spring Boot, and MySQL, and build the React frontends that sit on top of it.",
     "I care about getting the basics right: secure JWT login, role-based access, and database queries tuned with indexing. I've built and deployed full-stack apps end to end, from schema design to hosting on Render and Vercel.",
     "I worked at Hyper Grid Technology Solutions as an Associate Software Engineer, building REST APIs and improving database performance."
-  
+
   ]
 };
 
@@ -73,7 +73,7 @@ export const PROJECTS: Project[] = [
     title: 'Papikondalu Tourism — Regional Tourism Platform',
     description: 'A comprehensive tourism website for Papikondalu and East Godavari region. Built with Next.js 15 and TypeScript featuring tour packages, booking system, image gallery with lazy loading, WhatsApp integration, and SEO optimization with Lighthouse scores above 90.',
     tags: ['Next.js 15', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'React', 'Node.js', 'Vercel'],
-    category: ['Full Stack', 'Backend', 'Frontend'],
+    category: ['Frontend'],
     image: '/papikondalu.jpg',
     githubUrl: PERSONAL_DETAILS.social.github,
     liveUrl: 'https://papikondalu01-lemon.vercel.app/'
@@ -83,7 +83,7 @@ export const PROJECTS: Project[] = [
     title: 'SLSIT Skillup — Educational Platform',
     description: 'A fully responsive educational platform for SLSIT Skillup offering technology courses and career training. Features dynamic course catalog, enrollment system, contact form with Node.js backend, glassmorphism UI, gradient animations, and particle backgrounds built with React 18 and Vite.',
     tags: ['React.js', 'Tailwind CSS', 'Framer Motion', 'React Router', 'Lucide React', 'Node.js', 'Vite'],
-    category: ['Full Stack'],
+    category: ['Frontend'],
     image: '/slsit.jpg',
     githubUrl: PERSONAL_DETAILS.social.github,
     liveUrl: 'https://slsitskillup-phi.vercel.app/'
@@ -108,12 +108,12 @@ export const PROJECTS: Project[] = [
     githubUrl: 'https://github.com/Saikiran-Avusula/food_restaurant_sai_kiran/tree/main',
     liveUrl: 'https://food-restaurant-sai-kiran.vercel.app/'
   },
-   {
+  {
     id: 5,
     title: 'Stay Finder',
     description: 'A full-stack hotel search and booking platform with paginated search, filters for location, price, rating, and amenities, and JWT login for users and admins.',
     tags: ['Java', 'Spring Boot', 'React.js', 'MySQL'],
-    category: ['Full Stack'],
+    category: ['Backend', 'Frontend', 'Full Stack'],
     image: '/stayfinder.png',
     githubUrl: 'https://github.com/Saikiran-Avusula/Stay_Finder',
     liveUrl: 'https://stay-finder-sage.vercel.app/'
@@ -123,10 +123,10 @@ export const PROJECTS: Project[] = [
     title: 'TaskFlow',
     description: 'A task and project tracker with Admin and User roles, priority levels, status workflows (TODO, IN_PROGRESS, DONE), and live dashboard statistics.',
     tags: ['Java', 'Spring Boot', 'React.js', 'MySQL'],
-    category: ['Full Stack'],
+    category: ['Backend', 'Frontend', 'Full Stack'],
     image: '/taskflow.png',
     githubUrl: 'https://github.com/Saikiran-Avusula/Taskflow',
-    liveUrl: 'taskflow-ten-roan.vercel.app'
+    liveUrl: 'https://taskflow-three-sage-23.vercel.app/'
   }
 ];
 
