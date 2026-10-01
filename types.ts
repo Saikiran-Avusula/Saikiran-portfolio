@@ -5,7 +5,7 @@ export interface Project {
   title: string;
   description: string;
   tags: string[];
-  category: 'Backend' | 'Frontend' | 'Full Stack' | 'AI';
+  category: string[];
   image: string;
   githubUrl: string;
   liveUrl?: string;
@@ -39,16 +39,6 @@ export interface Certification {
   issuer: string;
   date: string;
   url?: string;
-}
-
-export interface BlogPost {
-  id: number;
-  title: string;
-  excerpt: string;
-  date: string;
-  readTime: string;
-  tags: string[];
-  image: string;
 }
 
 export interface NavItem {

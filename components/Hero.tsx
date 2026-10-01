@@ -170,7 +170,7 @@ const Hero: React.FC = () => {
             className="md:col-span-4 bento-card rounded-3xl p-6 flex flex-col items-center justify-center relative overflow-hidden group"
           >
             <div className="absolute inset-0 bg-gradient-to-br from-indigo-600/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-            <div className="text-6xl font-black gradient-text mb-2">1+</div>
+            <div className="text-6xl font-black gradient-text mb-2">2</div>
             <div className="text-slate-400 text-sm font-semibold uppercase tracking-wider">Years Experience</div>
           </motion.div>
 
@@ -181,7 +181,7 @@ const Hero: React.FC = () => {
             className="md:col-span-4 bento-card rounded-3xl p-6 flex flex-col items-center justify-center relative overflow-hidden group"
           >
             <div className="absolute inset-0 bg-gradient-to-br from-purple-600/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-            <div className="text-6xl font-black gradient-text mb-2">10+</div>
+            <div className="text-6xl font-black gradient-text mb-2">6+</div>
             <div className="text-slate-400 text-sm font-semibold uppercase tracking-wider">Projects Completed</div>
           </motion.div>
 

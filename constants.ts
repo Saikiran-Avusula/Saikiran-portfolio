@@ -1,4 +1,4 @@
-import { Project, Skill, Experience, BlogPost, NavItem, Education, Certification } from './types';
+import { Project, Skill, Experience, NavItem, Education, Certification } from './types';
 
 /**
  * PERSONAL DETAILS
@@ -7,7 +7,7 @@ import { Project, Skill, Experience, BlogPost, NavItem, Education, Certification
 export const PERSONAL_DETAILS = {
   name: "Sai Kiran Avusula",
   role: "Full-Stack Developer",
-  about: "Building scalable web applications with Java, Spring Boot, React, and MySQL. 1+ years of production experience. Currently shipping features at Hyper Grid Technology.",
+  about: "Building full-stack web applications with Java, Spring Boot, React.js, and MySQL. 2 years of experience, including internship.",
   social: {
     linkedin: "https://www.linkedin.com/in/sai-kiran-avusula-096655290/",
     github: "https://github.com/Saikiran-Avusula",
@@ -18,9 +18,10 @@ export const PERSONAL_DETAILS = {
 export const ABOUT_INTRO = {
   title: "About Me",
   description: [
-    "I'm a full-stack engineer who ships production code. I specialize in backend architecture with Spring Boot and modern frontend with React.",
-    "I don't just write code—I solve problems. From JWT authentication systems to optimized database queries, I focus on what actually moves the needle: performance, security, and user experience.",
-    "Currently at Hyper Grid Technology Solutions, building REST APIs and React interfaces that real users depend on."
+    "I'm a full-stack developer with 2 years of experience, including an internship. I work mostly on the backend with Java, Spring Boot, and MySQL, and build the React frontends that sit on top of it.",
+    "I care about getting the basics right: secure JWT login, role-based access, and database queries tuned with indexing. I've built and deployed full-stack apps end to end, from schema design to hosting on Render and Vercel.",
+    "I worked at Hyper Grid Technology Solutions as an Associate Software Engineer, building REST APIs and improving database performance."
+  
   ]
 };
 
@@ -31,7 +32,6 @@ export const NAV_ITEMS: NavItem[] = [
   { label: 'Projects', href: '#projects' },
   { label: 'Experience', href: '#experience' },
   { label: 'Education', href: '#education' },
-  { label: 'Blog', href: '#blog' },
   { label: 'Contact', href: '#contact' },
 ];
 
@@ -73,7 +73,7 @@ export const PROJECTS: Project[] = [
     title: 'Papikondalu Tourism — Regional Tourism Platform',
     description: 'A comprehensive tourism website for Papikondalu and East Godavari region. Built with Next.js 15 and TypeScript featuring tour packages, booking system, image gallery with lazy loading, WhatsApp integration, and SEO optimization with Lighthouse scores above 90.',
     tags: ['Next.js 15', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'React', 'Node.js', 'Vercel'],
-    category: 'Full Stack',
+    category: ['Full Stack', 'Backend', 'Frontend'],
     image: '/papikondalu.jpg',
     githubUrl: PERSONAL_DETAILS.social.github,
     liveUrl: 'https://papikondalu01-lemon.vercel.app/'
@@ -83,7 +83,7 @@ export const PROJECTS: Project[] = [
     title: 'SLSIT Skillup — Educational Platform',
     description: 'A fully responsive educational platform for SLSIT Skillup offering technology courses and career training. Features dynamic course catalog, enrollment system, contact form with Node.js backend, glassmorphism UI, gradient animations, and particle backgrounds built with React 18 and Vite.',
     tags: ['React.js', 'Tailwind CSS', 'Framer Motion', 'React Router', 'Lucide React', 'Node.js', 'Vite'],
-    category: 'Frontend',
+    category: ['Full Stack'],
     image: '/slsit.jpg',
     githubUrl: PERSONAL_DETAILS.social.github,
     liveUrl: 'https://slsitskillup-phi.vercel.app/'
@@ -93,7 +93,7 @@ export const PROJECTS: Project[] = [
     title: 'Bus Ticket Booking App',
     description: 'A responsive bus ticket booking interface featuring search filters, detailed ticket cards, invoice generation, and a checkout process.',
     tags: ['React.js', 'Tailwind CSS', 'Framer Motion'],
-    category: 'Frontend',
+    category: ['Frontend'],
     image: 'https://picsum.photos/600/400?random=3',
     githubUrl: 'https://github.com/Saikiran-Avusula/Bus-ticket-booking-application/tree/main',
     liveUrl: 'https://bus-ticket-booking-application-tau.vercel.app/'
@@ -103,10 +103,30 @@ export const PROJECTS: Project[] = [
     title: 'Restaurant Landing Page',
     description: 'A Modern UI/UX Restaurant Landing Page Website built with React.js. Features complex gradients, soft animations, and a fully responsive design.',
     tags: ['React.js', 'CSS', 'UI/UX'],
-    category: 'Frontend',
+    category: ['Frontend'],
     image: 'https://i.ibb.co/5jxBKpw/image.png',
     githubUrl: 'https://github.com/Saikiran-Avusula/food_restaurant_sai_kiran/tree/main',
     liveUrl: 'https://food-restaurant-sai-kiran.vercel.app/'
+  },
+   {
+    id: 5,
+    title: 'Stay Finder',
+    description: 'A full-stack hotel search and booking platform with paginated search, filters for location, price, rating, and amenities, and JWT login for users and admins.',
+    tags: ['Java', 'Spring Boot', 'React.js', 'MySQL'],
+    category: ['Full Stack'],
+    image: '/stayfinder.png',
+    githubUrl: 'https://github.com/Saikiran-Avusula/Stay_Finder',
+    liveUrl: 'https://stay-finder-sage.vercel.app/'
+  },
+  {
+    id: 6,
+    title: 'TaskFlow',
+    description: 'A task and project tracker with Admin and User roles, priority levels, status workflows (TODO, IN_PROGRESS, DONE), and live dashboard statistics.',
+    tags: ['Java', 'Spring Boot', 'React.js', 'MySQL'],
+    category: ['Full Stack'],
+    image: '/taskflow.png',
+    githubUrl: 'https://github.com/Saikiran-Avusula/Taskflow',
+    liveUrl: 'taskflow-ten-roan.vercel.app'
   }
 ];
 
@@ -114,37 +134,36 @@ export const EXPERIENCE: Experience[] = [
   {
     id: 1,
     role: 'Associate Software Engineer',
-    company: 'Hyper Grid Technology Solution Pvt Ltd.',
-    period: 'August 2025 - Present',
+    company: 'Hyper Grid Technology Solution Pvt Ltd',
+    period: 'September 2025 - June 2026',
     description: [
-      'Developing REST APIs using Spring Boot and MySQL for business domains.',
-      'Building responsive web interfaces with React.js and Tailwind CSS.',
-      'Implementing JWT authentication and role-based authorization.',
-      'Collaborating in agile development using Git for version control.'
+      'Built and maintained 15+ REST APIs with Java, Spring Boot, and MySQL, including validations and role-based access control.',
+      'Implemented JWT authentication with Spring Security to secure service endpoints.',
+      'Tuned JPA queries and added indexes to improve database performance.',
+      'Worked with the front-end team to integrate APIs and fix integration issues.'
     ]
   },
   {
     id: 2,
-    role: 'Junior Developer',
+    role: 'Associate UI Developer',
     company: 'Amoghnya Tech Solutions Pvt Ltd',
     period: 'April 2023 - January 2025',
     description: [
-      'Developed user-facing features for internal platforms using HTML, CSS, JavaScript, and Bootstrap.',
-      'Utilized agile methodologies and collaborative version control with GitHub.',
-      'Designed and implemented intuitive and responsive user interfaces to enhance user experience.',
-      'Worked with cross-functional teams to deploy applications and troubleshoot performance issues.'
+      'Built 10+ reusable React.js components with HTML5, CSS3, and JavaScript.',
+      'Integrated REST APIs using Axios, with error handling and loading states.',
+      'Found and fixed 20+ UI bugs, including cross-browser issues.',
+      'Worked with backend engineers to agree on API contracts.'
     ]
   },
   {
     id: 3,
-    role: 'Program Analyst Trainee | Internship',
+    role: 'Program Analyst Trainee (Internship)',
     company: 'Cognizant Technology Solutions India Pvt Ltd',
     period: 'March 2022 - November 2022',
     description: [
-      'Contributed to the development and documentation of software programs using JavaScript, HTML, and CSS.',
-      'Acquired valuable experience in Java-based OOP applications and problem-solving methodologies.',
-      'Developed proficiency in creating dynamic content, driving engaging and interactive user experiences.',
-      'Collaborated with team members to deliver high-quality solutions that streamlined internal processes.'
+      'Trained in Java, JavaScript, HTML5, and CSS3, with hands-on practice in OOP.',
+      'Worked on REST API integration and Git-based version control.',
+      'Built small practice applications to apply what I learned.'
     ]
   }
 ];
@@ -169,35 +188,7 @@ export const CERTIFICATIONS: Certification[] = [
   }
 ];
 
-export const BLOG_POSTS: BlogPost[] = [
-  {
-    id: 1,
-    title: 'Mastering Spring Boot Annotations',
-    excerpt: 'A comprehensive guide to the most important annotations in the Spring ecosystem.',
-    date: 'Oct 12, 2023',
-    readTime: '5 min read',
-    tags: ['Java', 'Spring Boot'],
-    image: 'https://picsum.photos/600/300?random=5'
-  },
-  {
-    id: 2,
-    title: 'React Hooks Explained',
-    excerpt: 'Understanding useEffect, useState, and custom hooks for cleaner components.',
-    date: 'Nov 05, 2023',
-    readTime: '7 min read',
-    tags: ['React', 'Frontend'],
-    image: 'https://picsum.photos/600/300?random=6'
-  },
-  {
-    id: 3,
-    title: 'Building REST APIs',
-    excerpt: 'Best practices for designing scalable and maintainable RESTful services.',
-    date: 'Dec 20, 2023',
-    readTime: '6 min read',
-    tags: ['Backend', 'API'],
-    image: 'https://picsum.photos/600/300?random=7'
-  }
-];
+
 
 export const SYSTEM_INSTRUCTION = `
 You are "Sai Kiran's AI Assistant", an artificial intelligence agent embedded in the portfolio website of Sai Kiran Avusula.
@@ -208,7 +199,7 @@ Context about Sai Kiran:
 - **Role:** Full Stack Java Developer / Associate Software Engineer
 - **Education:** B.Tech in CSE from CMR Engineering College (2018-2022).
 - **Experience:** 
-  - Associate Software Engineer at Hyper Grid Technology Solution (Apr 2024 - Present).
+  - Associate Software Engineer at Hyper Grid Technology Solution (September  2025 - June 2026).
   - Junior Developer at Amoghnya Tech Solutions (Apr 2023 - Apr 2024).
   - Program Analyst Trainee at Cognizant (Mar 2022 - Nov 2022).
 - **Key Skills:** Java, Spring Boot, React.js, MySQL, REST APIs, Git.

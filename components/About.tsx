@@ -80,7 +80,7 @@ const About: React.FC = () => {
 
                     <div className="grid gap-6 mt-10 pt-10 border-t border-white/10">
                         <div className="text-center">
-                            <div className="text-5xl font-black gradient-text mb-2">1+</div>
+                            <div className="text-5xl font-black gradient-text mb-2">2</div>
                             <div className="text-slate-400 text-sm font-semibold uppercase tracking-wider">Years Experience</div>
                         </div>
                     </div>

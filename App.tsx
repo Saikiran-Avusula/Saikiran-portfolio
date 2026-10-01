@@ -6,11 +6,11 @@ import Skills from './components/Skills';
 import Projects from './components/Projects';
 import Timeline from './components/Timeline';
 import Education from './components/Education';
-import Blog from './components/Blog';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import Login from './components/Login';
 import AdminPanel from './components/AdminPanel';
+import CitySkyline from './components/CitySkyline';
 import { authService } from './services/authService';
 
 const App: React.FC = () => {
@@ -40,7 +40,10 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="relative min-h-screen bg-slate-950 overflow-x-hidden selection:bg-primary-500/30">
+    <div className="relative min-h-screen bg-black overflow-x-hidden selection:bg-primary-500/30">
+      {/* City Skyline Background */}
+      {currentView === 'home' && <CitySkyline />}
+      
       <Navbar
         key={forceNavbarUpdate}
         onOpenLogin={() => setIsLoginOpen(true)}
@@ -51,14 +54,13 @@ const App: React.FC = () => {
       />
 
       {currentView === 'home' ? (
-        <main>
+        <main className="relative z-10">
           <Hero />
           <About />
           <Skills />
           <Timeline />
           <Projects />
           <Education />
-          <Blog />
           <Contact />
         </main>
       ) : (

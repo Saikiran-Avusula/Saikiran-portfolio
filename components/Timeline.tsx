@@ -31,8 +31,8 @@ const Timeline: React.FC = () => {
   }, []);
 
   return (
-    <section id="experience" className="py-20 bg-black scroll-mt-24 relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-indigo-950/20 via-transparent to-purple-950/20 pointer-events-none"></div>
+    <section id="experience" className="py-20 bg-transparent scroll-mt-24 relative overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-black/80 pointer-events-none"></div>
       
       <div className="max-w-5xl mx-auto px-6 relative z-10">
         <motion.div
